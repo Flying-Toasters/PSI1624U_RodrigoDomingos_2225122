@@ -31,9 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblMudarInstrutores = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.lblLogo = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -45,7 +43,9 @@
             this.btnSignUpMem = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lblMudarInstrutores = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblLogo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -84,43 +84,19 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             // 
-            // lblMudarInstrutores
+            // label7
             // 
-            this.lblMudarInstrutores.AutoSize = true;
-            this.lblMudarInstrutores.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblMudarInstrutores.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMudarInstrutores.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblMudarInstrutores.Location = new System.Drawing.Point(147, 74);
-            this.lblMudarInstrutores.Name = "lblMudarInstrutores";
-            this.lblMudarInstrutores.Size = new System.Drawing.Size(142, 16);
-            this.lblMudarInstrutores.TabIndex = 10;
-            this.lblMudarInstrutores.Text = "mudar para instrutores";
-            this.lblMudarInstrutores.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblMudarInstrutores.Click += new System.EventHandler(this.lblMudarInstrutores_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label5.Location = new System.Drawing.Point(73, 74);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(63, 17);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "membros";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblLogo
-            // 
-            this.lblLogo.AutoSize = true;
-            this.lblLogo.Font = new System.Drawing.Font("Century Gothic", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLogo.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblLogo.Location = new System.Drawing.Point(66, 16);
-            this.lblLogo.Name = "lblLogo";
-            this.lblLogo.Size = new System.Drawing.Size(231, 58);
-            this.lblLogo.TabIndex = 0;
-            this.lblLogo.Text = "STHENOS";
-            this.lblLogo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label7.AutoSize = true;
+            this.label7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label7.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label7.Location = new System.Drawing.Point(247, 373);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(103, 16);
+            this.label7.TabIndex = 28;
+            this.label7.Text = "voltar para login";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // label6
             // 
@@ -226,19 +202,43 @@
             this.textBox2.Size = new System.Drawing.Size(212, 24);
             this.textBox2.TabIndex = 18;
             // 
-            // label7
+            // lblMudarInstrutores
             // 
-            this.label7.AutoSize = true;
-            this.label7.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label7.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label7.Location = new System.Drawing.Point(247, 373);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(103, 16);
-            this.label7.TabIndex = 28;
-            this.label7.Text = "voltar para login";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label7.Click += new System.EventHandler(this.label7_Click);
+            this.lblMudarInstrutores.AutoSize = true;
+            this.lblMudarInstrutores.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblMudarInstrutores.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMudarInstrutores.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lblMudarInstrutores.Location = new System.Drawing.Point(147, 74);
+            this.lblMudarInstrutores.Name = "lblMudarInstrutores";
+            this.lblMudarInstrutores.Size = new System.Drawing.Size(142, 16);
+            this.lblMudarInstrutores.TabIndex = 10;
+            this.lblMudarInstrutores.Text = "mudar para instrutores";
+            this.lblMudarInstrutores.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblMudarInstrutores.Click += new System.EventHandler(this.lblMudarInstrutores_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label5.Location = new System.Drawing.Point(73, 74);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(63, 17);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "membros";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblLogo
+            // 
+            this.lblLogo.AutoSize = true;
+            this.lblLogo.Font = new System.Drawing.Font("Century Gothic", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLogo.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lblLogo.Location = new System.Drawing.Point(66, 16);
+            this.lblLogo.Name = "lblLogo";
+            this.lblLogo.Size = new System.Drawing.Size(231, 58);
+            this.lblLogo.TabIndex = 0;
+            this.lblLogo.Text = "STHENOS";
+            this.lblLogo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form3
             // 
