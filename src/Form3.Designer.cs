@@ -183,6 +183,7 @@
             this.btnSignUpMem.TabIndex = 19;
             this.btnSignUpMem.Text = "Sign Up";
             this.btnSignUpMem.UseVisualStyleBackColor = true;
+            this.btnSignUpMem.Click += new System.EventHandler(this.btnSignUpMem_Click);
             // 
             // textBox1
             // 

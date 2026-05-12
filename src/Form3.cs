@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp1
@@ -19,21 +13,52 @@ namespace WindowsFormsApp1
 
         private void btnSignUpMem_Click(object sender, EventArgs e)
         {
+            if (textBox2.Text != textBox3.Text)
+            {
+                MessageBox.Show("As palavras-passe não coincidem.");
+                return;
+            }
 
+            try
+            {
+                using (SqlConnection conn = DatabaseHelper.GetConnection())
+                {
+                    string query = @"INSERT INTO Membros
+                    (nome, apelido, email, palavra_passe)
+                    VALUES (@nome, @apelido, @email, @password)";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@nome", textBox4.Text.Trim());
+                        cmd.Parameters.AddWithValue("@apelido", textBox5.Text.Trim());
+                        cmd.Parameters.AddWithValue("@email", textBox1.Text.Trim());
+                        cmd.Parameters.AddWithValue("@password",
+                            DatabaseHelper.HashPassword(textBox2.Text.Trim()));
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("Membro registado com sucesso!");
+                new Form1().Show();
+                Hide();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+            }
         }
 
         private void lblMudarInstrutores_Click(object sender, EventArgs e)
         {
-            Form4 form4 = new Form4();
-            form4.Show();
-            this.Hide();
+            new Form4().Show();
+            Hide();
         }
 
         private void label7_Click(object sender, EventArgs e)
         {
-            Form1 form1 = new Form1();
-            form1.Show();
-            this.Hide();
+            new Form1().Show();
+            Hide();
         }
     }
 }

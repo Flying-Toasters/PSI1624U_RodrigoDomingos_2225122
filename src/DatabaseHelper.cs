@@ -11,7 +11,7 @@ namespace WindowsFormsApp1
     {
 
         private const string ConnectionString =
-            @"Server=(localdb)\\MSSQLLocalDB;Database=SthenosDB;Trusted_Connection=True;TrustServerCertificate=True";
+            @"Server=(localdb)\MSSQLLocalDB;Database=SthenosDB;Trusted_Connection=True;TrustServerCertificate=True";
 
         public static SqlConnection GetConnection()
         {
