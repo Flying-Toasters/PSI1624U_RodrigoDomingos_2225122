@@ -58,5 +58,11 @@ namespace WindowsFormsApp1
                 MessageBox.Show("Erro: " + ex.Message);
             }
         }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            new Form5().Show();
+            Hide();
+        }
     }
 }
