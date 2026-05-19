@@ -1,16 +1,16 @@
 ﻿namespace WindowsFormsApp1
 {
-    partial class Form1
+    partial class FormInstrutoresLogIn
     {
         /// <summary>
-        /// Variável de designer necessária.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Limpar os recursos que estão sendo usados.
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">true se for necessário descartar os recursos gerenciados; caso contrário, false.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,51 +20,58 @@
             base.Dispose(disposing);
         }
 
-        #region Código gerado pelo Windows Form Designer
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// Método necessário para suporte ao Designer - não modifique 
-        /// o conteúdo deste método com o editor de código.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormInstrutoresLogIn));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblMudarInstrutores = new System.Windows.Forms.Label();
+            this.RememberMe = new System.Windows.Forms.CheckBox();
+            this.lblMudarMembros = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnSignUpMem = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.lblLogo = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
             // 
             this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
-            this.pictureBox1.Location = new System.Drawing.Point(-3, -7);
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(810, 463);
+            this.pictureBox1.Size = new System.Drawing.Size(800, 450);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
             // groupBox1
             // 
-            this.groupBox1.BackColor = System.Drawing.Color.LightSlateGray;
-            this.groupBox1.Controls.Add(this.lblMudarInstrutores);
+            this.groupBox1.BackColor = System.Drawing.Color.Maroon;
+            this.groupBox1.Controls.Add(this.pictureBox2);
+            this.groupBox1.Controls.Add(this.RememberMe);
+            this.groupBox1.Controls.Add(this.lblMudarMembros);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.btnSignUpMem);
+            this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.lblLogo);
             this.groupBox1.Controls.Add(this.textBox2);
@@ -72,22 +79,34 @@
             this.groupBox1.Location = new System.Drawing.Point(477, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(288, 396);
-            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             // 
-            // lblMudarInstrutores
+            // RememberMe
             // 
-            this.lblMudarInstrutores.AutoSize = true;
-            this.lblMudarInstrutores.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblMudarInstrutores.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMudarInstrutores.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblMudarInstrutores.Location = new System.Drawing.Point(112, 68);
-            this.lblMudarInstrutores.Name = "lblMudarInstrutores";
-            this.lblMudarInstrutores.Size = new System.Drawing.Size(142, 16);
-            this.lblMudarInstrutores.TabIndex = 10;
-            this.lblMudarInstrutores.Text = "mudar para instrutores";
-            this.lblMudarInstrutores.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblMudarInstrutores.Click += new System.EventHandler(this.lblMudarInstrutores_Click);
+            this.RememberMe.AutoSize = true;
+            this.RememberMe.Font = new System.Drawing.Font("Microsoft Tai Le", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RememberMe.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.RememberMe.Location = new System.Drawing.Point(41, 248);
+            this.RememberMe.Name = "RememberMe";
+            this.RememberMe.Size = new System.Drawing.Size(107, 18);
+            this.RememberMe.TabIndex = 12;
+            this.RememberMe.Text = "Lembrar de mim";
+            this.RememberMe.UseVisualStyleBackColor = true;
+            // 
+            // lblMudarMembros
+            // 
+            this.lblMudarMembros.AutoSize = true;
+            this.lblMudarMembros.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblMudarMembros.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMudarMembros.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lblMudarMembros.Location = new System.Drawing.Point(112, 68);
+            this.lblMudarMembros.Name = "lblMudarMembros";
+            this.lblMudarMembros.Size = new System.Drawing.Size(140, 16);
+            this.lblMudarMembros.TabIndex = 10;
+            this.lblMudarMembros.Text = "mudar para membros";
+            this.lblMudarMembros.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblMudarMembros.Click += new System.EventHandler(this.lblMudarMembros_Click);
             // 
             // label5
             // 
@@ -96,9 +115,9 @@
             this.label5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label5.Location = new System.Drawing.Point(38, 68);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(63, 17);
+            this.label5.Size = new System.Drawing.Size(69, 17);
             this.label5.TabIndex = 9;
-            this.label5.Text = "membros";
+            this.label5.Text = "instrutores";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label4
@@ -127,7 +146,7 @@
             this.label2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label2.Font = new System.Drawing.Font("Microsoft Tai Le", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(38, 245);
+            this.label2.Location = new System.Drawing.Point(38, 269);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(146, 16);
             this.label2.TabIndex = 6;
@@ -147,15 +166,15 @@
             this.label1.Text = "Não tem uma conta ainda?";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnSignUpMem
+            // button2
             // 
-            this.btnSignUpMem.Location = new System.Drawing.Point(41, 344);
-            this.btnSignUpMem.Name = "btnSignUpMem";
-            this.btnSignUpMem.Size = new System.Drawing.Size(212, 30);
-            this.btnSignUpMem.TabIndex = 4;
-            this.btnSignUpMem.Text = "Sign Up";
-            this.btnSignUpMem.UseVisualStyleBackColor = true;
-            this.btnSignUpMem.Click += new System.EventHandler(this.btnSignUpMem_Click);
+            this.button2.Location = new System.Drawing.Point(41, 344);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(212, 30);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Sign Up";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // textBox1
             // 
@@ -192,24 +211,38 @@
             // 
             this.button1.Location = new System.Drawing.Point(41, 212);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(213, 30);
+            this.button1.Size = new System.Drawing.Size(212, 30);
             this.button1.TabIndex = 3;
             this.button1.Text = "Log In";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // Form1
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox2.BackgroundImage")));
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox2.Location = new System.Drawing.Point(231, 170);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(21, 21);
+            this.pictureBox2.TabIndex = 13;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
+            // FormInstrutoresLogIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pictureBox1);
-            this.Name = "Form1";
-            this.Text = "LoginMembros";
+            this.Name = "FormInstrutoresLogIn";
+            this.Text = "LoginInstrutores";
+            this.Load += new System.EventHandler(this.FormInstrutoresLogIn_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -218,17 +251,18 @@
 
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label lblLogo;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnSignUpMem;
+        private System.Windows.Forms.Label lblMudarMembros;
+        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lblMudarInstrutores;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label lblLogo;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox RememberMe;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
-

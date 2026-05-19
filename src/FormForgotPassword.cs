@@ -15,13 +15,13 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
-    public partial class Form5 : Form
+    public partial class FormForgotPassword : Form
     {
         public static string userName = null;
         public static string userRole = null;
         string randomCode;
         public static string to;
-        public Form5()
+        public FormForgotPassword()
         {
             InitializeComponent();
         }
@@ -119,7 +119,7 @@ namespace WindowsFormsApp1
             if (randomCode == (textBox2.Text).ToString())
             {
                 to = textBox1.Text;
-                new Form6().Show();
+                new FormResetPassword().Show();
                 Hide();
             }
             else

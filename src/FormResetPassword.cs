@@ -12,11 +12,11 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace WindowsFormsApp1
 {
-    public partial class Form6 : Form
+    public partial class FormResetPassword : Form
     {
-        string userEmail = Form5.to;
-        string userRole = Form5.userRole;
-        public Form6()
+        string userEmail = FormForgotPassword.to;
+        string userRole = FormForgotPassword.userRole;
+        public FormResetPassword()
         {
             InitializeComponent();
             
@@ -39,6 +39,7 @@ namespace WindowsFormsApp1
                         cmd.ExecuteNonQuery();
                     }
                     MessageBox.Show("Palavra-passe alterada com sucesso");
+                    new FormMembrosLogIn().Show();
                 }
                 else if (userRole == "Instrutor")
                 {
@@ -51,6 +52,7 @@ namespace WindowsFormsApp1
                         cmd.ExecuteNonQuery();
                     }
                     MessageBox.Show("Palavra-passe alterada com sucesso");
+                    new FormInstrutoresLogIn().Show();
                 }
                 else if (userRole == "Admin")
                 {
@@ -63,6 +65,7 @@ namespace WindowsFormsApp1
                         cmd.ExecuteNonQuery();
                     }
                     MessageBox.Show("Palavra-passe alterada com sucesso");
+                    new FormMembrosLogIn().Show();
                 }
             }
             else

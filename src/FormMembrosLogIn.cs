@@ -1,25 +1,27 @@
 using System;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Web;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
-    public partial class Form1 : Form
+    public partial class FormMembrosLogIn : Form
     {
-        public Form1()
+        public FormMembrosLogIn()
         {
             InitializeComponent();
         }
 
         private void lblMudarInstrutores_Click(object sender, EventArgs e)
         {
-            new Form2().Show();
+            new FormInstrutoresLogIn().Show();
             Hide();
         }
 
         private void btnSignUpMem_Click(object sender, EventArgs e)
         {
-            new Form3().Show();
+            new FormMembrosSignIn().Show();
             Hide();
         }
 
@@ -45,6 +47,8 @@ namespace WindowsFormsApp1
                         if (count > 0)
                         {
                             MessageBox.Show("Login efetuado com sucesso!");
+                            new FormDashboard().Show();
+                            Hide();
                         }
                         else
                         {
@@ -57,11 +61,48 @@ namespace WindowsFormsApp1
             {
                 MessageBox.Show("Erro: " + ex.Message);
             }
+
+            if (RememberMe.Checked)
+            {
+                Properties.Settings.Default.userEmail = textBox1.Text;
+                Properties.Settings.Default.userPassword = textBox2.Text;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.userEmail = string.Empty;
+                Properties.Settings.Default.userPassword = string.Empty;
+                Properties.Settings.Default.Save();
+            }
         }
         private void label2_Click(object sender, EventArgs e)
         {
-            new Form5().Show();
+            new FormForgotPassword().Show();
             Hide();
+        }
+
+        private void FormMembrosLogIn_Load(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.userEmail != string.Empty)
+            {
+                textBox1.Text = Properties.Settings.Default.userEmail;
+                textBox2.Text = Properties.Settings.Default.userPassword;
+            }
+
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            if (textBox2.UseSystemPasswordChar == true)
+            {
+                textBox2.UseSystemPasswordChar = false;
+                pictureBox2.BackgroundImage = Image.FromFile("C:\\Users\\2225122\\Documents\\eye_15732976.png");
+            }
+            else
+            {
+                textBox2.UseSystemPasswordChar = true;
+                pictureBox2.BackgroundImage = Image.FromFile("C:\\Users\\2225122\\Documents\\eye_15732967.png");
+            }
         }
     }
 }

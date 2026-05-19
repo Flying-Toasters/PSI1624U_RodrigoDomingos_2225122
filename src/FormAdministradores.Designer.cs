@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsApp1
 {
-    partial class Form7
+    partial class FormAdministradores
     {
         /// <summary>
         /// Required designer variable.
@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form7));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAdministradores));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnSignUpMem = new System.Windows.Forms.Button();
+            this.btnLogInAdmin = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.lblLogo = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -46,7 +46,7 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.btnSignUpMem);
+            this.groupBox1.Controls.Add(this.btnLogInAdmin);
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.lblLogo);
             this.groupBox1.Controls.Add(this.textBox2);
@@ -59,11 +59,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Alkhemikal", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label5.Location = new System.Drawing.Point(73, 74);
+            this.label5.Location = new System.Drawing.Point(112, 74);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(103, 17);
+            this.label5.Size = new System.Drawing.Size(142, 19);
             this.label5.TabIndex = 9;
             this.label5.Text = "administradores";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -88,14 +88,15 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "Palavra-passe:";
             // 
-            // btnSignUpMem
+            // btnLogInAdmin
             // 
-            this.btnSignUpMem.Location = new System.Drawing.Point(76, 270);
-            this.btnSignUpMem.Name = "btnSignUpMem";
-            this.btnSignUpMem.Size = new System.Drawing.Size(212, 30);
-            this.btnSignUpMem.TabIndex = 4;
-            this.btnSignUpMem.Text = "Confirmar";
-            this.btnSignUpMem.UseVisualStyleBackColor = true;
+            this.btnLogInAdmin.Location = new System.Drawing.Point(76, 270);
+            this.btnLogInAdmin.Name = "btnLogInAdmin";
+            this.btnLogInAdmin.Size = new System.Drawing.Size(212, 30);
+            this.btnLogInAdmin.TabIndex = 4;
+            this.btnLogInAdmin.Text = "Confirmar";
+            this.btnLogInAdmin.UseVisualStyleBackColor = true;
+            this.btnLogInAdmin.Click += new System.EventHandler(this.btnLogInAdmin_Click);
             // 
             // textBox1
             // 
@@ -109,11 +110,11 @@
             // lblLogo
             // 
             this.lblLogo.AutoSize = true;
-            this.lblLogo.Font = new System.Drawing.Font("Century Gothic", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLogo.Font = new System.Drawing.Font("Alkhemikal", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLogo.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblLogo.Location = new System.Drawing.Point(66, 16);
+            this.lblLogo.Location = new System.Drawing.Point(87, 26);
             this.lblLogo.Name = "lblLogo";
-            this.lblLogo.Size = new System.Drawing.Size(231, 58);
+            this.lblLogo.Size = new System.Drawing.Size(201, 48);
             this.lblLogo.TabIndex = 0;
             this.lblLogo.Text = "STHENOS";
             this.lblLogo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -126,8 +127,9 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(212, 24);
             this.textBox2.TabIndex = 2;
+            this.textBox2.UseSystemPasswordChar = true;
             // 
-            // Form7
+            // FormAdministradores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -135,8 +137,8 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.groupBox1);
             this.DoubleBuffered = true;
-            this.Name = "Form7";
-            this.Text = "Form7";
+            this.Name = "FormAdministradores";
+            this.Text = "FormAdministradores";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -149,7 +151,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnSignUpMem;
+        private System.Windows.Forms.Button btnLogInAdmin;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label lblLogo;
         private System.Windows.Forms.TextBox textBox2;

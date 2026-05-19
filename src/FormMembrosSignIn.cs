@@ -4,9 +4,9 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
-    public partial class Form4 : Form
+    public partial class FormMembrosSignIn : Form
     {
-        public Form4()
+        public FormMembrosSignIn()
         {
             InitializeComponent();
         }
@@ -23,7 +23,7 @@ namespace WindowsFormsApp1
             {
                 using (SqlConnection conn = DatabaseHelper.GetConnection())
                 {
-                    string query = @"INSERT INTO Instrutores
+                    string query = @"INSERT INTO Membros
                     (nome, apelido, email, palavra_passe)
                     VALUES (@nome, @apelido, @email, @password)";
 
@@ -39,8 +39,8 @@ namespace WindowsFormsApp1
                     }
                 }
 
-                MessageBox.Show("Instrutor registado com sucesso!");
-                new Form2().Show();
+                MessageBox.Show("Membro registado com sucesso!");
+                new FormMembrosLogIn().Show();
                 Hide();
             }
             catch (Exception ex)
@@ -51,23 +51,14 @@ namespace WindowsFormsApp1
 
         private void lblMudarInstrutores_Click(object sender, EventArgs e)
         {
-            new Form3().Show();
+            new FormInstrutoresSignIn().Show();
             Hide();
         }
 
         private void label7_Click(object sender, EventArgs e)
         {
-            new Form2().Show();
+            new FormMembrosLogIn().Show();
             Hide();
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-            if (textBox4.Text == "SKY" && textBox5.Text == "GRAY" && textBox1.Text == "DAYS" && textBox2.Text == "VOID" && textBox3.Text == "STRANGER")
-            {
-                new Form7().Show();
-                Hide();
-            }
         }
     }
 }

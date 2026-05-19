@@ -1,30 +1,26 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
-    public partial class Form2 : Form
+    public partial class FormAdministradores : Form
     {
-        public Form2()
+        public FormAdministradores()
         {
             InitializeComponent();
         }
 
-        private void lblMudarMembros_Click(object sender, EventArgs e)
+        private void btnLogInAdmin_Click(object sender, EventArgs e)
         {
-            new Form1().Show();
-            Hide();
-        }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            new Form4().Show();
-            Hide();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
             string email = textBox1.Text.Trim();
             string passwordHash = DatabaseHelper.HashPassword(textBox2.Text.Trim());
 
@@ -32,7 +28,7 @@ namespace WindowsFormsApp1
             {
                 using (SqlConnection conn = DatabaseHelper.GetConnection())
                 {
-                    string query = @"SELECT COUNT(*) FROM Instrutores 
+                    string query = @"SELECT COUNT(*) FROM Administradores 
                                      WHERE email=@email AND palavra_passe=@password";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -44,11 +40,13 @@ namespace WindowsFormsApp1
 
                         if (count > 0)
                         {
-                            MessageBox.Show("Login efetuado com sucesso!");
+                            MessageBox.Show("Acesso autorizado.");
+                            new FormDashboard().Show();
+                            Hide();
                         }
                         else
                         {
-                            MessageBox.Show("Credenciais inválidas.");
+                            MessageBox.Show("Acesso negado.");
                         }
                     }
                 }
@@ -57,12 +55,6 @@ namespace WindowsFormsApp1
             {
                 MessageBox.Show("Erro: " + ex.Message);
             }
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-            new Form5().Show();
-            Hide();
         }
     }
 }

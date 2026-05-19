@@ -10,12 +10,11 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
-    public partial class Form7 : Form
+    public partial class FormDashboard : Form
     {
-        public Form7()
+        public FormDashboard()
         {
             InitializeComponent();
         }
-
     }
 }
