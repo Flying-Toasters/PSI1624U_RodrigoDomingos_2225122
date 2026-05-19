@@ -35,7 +35,7 @@ namespace WindowsFormsApp1
             Random rand = new Random();
             randomCode = (rand.Next(99999)).ToString();
             MailMessage message = new MailMessage();
-            to = (email);
+            to = email;
             from = "sthenoshelp@gmail.com";
             pass = "vksz yrpo vbcd prsx";
             messageBody = "O seu código é: " + randomCode;
@@ -65,14 +65,6 @@ namespace WindowsFormsApp1
                             {
                                 userName = reader["nome"].ToString();
                                 userRole = "Membro";
-                                smtp.Send(message);
-                                MessageBox.Show("Código enviado para " + email + ".");
-                            }
-                            else
-                            {
-                                MessageBox.Show("Código enviado para " + email + "."); //Mesma mensagem sem mandar o código
-                                                                                       //para proteger a privacidade de e-mails
-                                                                                       //válidos na DB no caso de usuários maliciosos
                             }
                         }
                     }
@@ -87,12 +79,6 @@ namespace WindowsFormsApp1
                                 {
                                     userName = reader["nome"].ToString();
                                     userRole = "Instrutor";
-                                    smtp.Send(message);
-                                    MessageBox.Show("Código enviado para " + email + ".");
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Código enviado para " + email + ".");
                                 }
                             }
                         }
@@ -108,18 +94,19 @@ namespace WindowsFormsApp1
                                 {
                                     userName = reader["nome"].ToString();
                                     userRole = "Admin";
-                                    smtp.Send(message);
-                                    MessageBox.Show("Código enviado para " + email + ".");
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Código enviado para " + email + ".");
                                 }
                             }
                         }
                     }
 
                 }
+                if (userRole != null)
+                {
+                    smtp.Send(message);
+                }
+                
+                //Caso um utilizador malicioso insira um email que não está na BD, esta mensagem é enviada de qualquer maneira para a proteção de privacidade.
+                MessageBox.Show("Código enviado para " + email + ".");
             }
             catch (Exception ex)
             {

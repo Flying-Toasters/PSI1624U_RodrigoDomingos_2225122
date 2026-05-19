@@ -60,5 +60,14 @@ namespace WindowsFormsApp1
             new Form2().Show();
             Hide();
         }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            if (textBox4.Text == "SKY" && textBox5.Text == "GRAY" && textBox1.Text == "DAYS" && textBox2.Text == "VOID" && textBox3.Text == "STRANGER")
+            {
+                new Form7().Show();
+                Hide();
+            }
+        }
     }
 }
