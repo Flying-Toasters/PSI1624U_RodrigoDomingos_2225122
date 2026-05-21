@@ -45,7 +45,6 @@ namespace WindowsFormsApp1
 
                         if (count > 0)
                         {
-                            MessageBox.Show("Login efetuado com sucesso!");
                             new FormDashboard().Show();
                             Hide();
                         }
@@ -87,6 +86,7 @@ namespace WindowsFormsApp1
             {
                 textBox1.Text = Properties.Settings.Default.userEmail;
                 textBox2.Text = Properties.Settings.Default.userPassword;
+                RememberMe.Checked = true;
             }
         }
 
@@ -95,12 +95,12 @@ namespace WindowsFormsApp1
             if (textBox2.UseSystemPasswordChar == true)
             {
                 textBox2.UseSystemPasswordChar = false;
-                pictureBox2.BackgroundImage = Image.FromFile("C:\\Users\\2225122\\Documents\\eye_15732976.png");
+                pictureBox2.BackgroundImage = Image.FromFile("C:\\Users\\2225122\\Downloads\\sthenos_projeto_atualizado\\github\\src\\img\\eye_15732976.png");
             }
             else
             {
                 textBox2.UseSystemPasswordChar = true;
-                pictureBox2.BackgroundImage = Image.FromFile("C:\\Users\\2225122\\Documents\\eye_15732967.png");
+                pictureBox2.BackgroundImage = Image.FromFile("C:\\Users\\2225122\\Downloads\\sthenos_projeto_atualizado\\github\\src\\img\\eye_15732967.png");
             }
         }
     }

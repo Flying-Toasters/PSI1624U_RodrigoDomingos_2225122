@@ -61,7 +61,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Alkhemikal", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label5.Location = new System.Drawing.Point(112, 74);
+            this.label5.Location = new System.Drawing.Point(114, 91);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(142, 19);
             this.label5.TabIndex = 9;
@@ -110,11 +110,11 @@
             // lblLogo
             // 
             this.lblLogo.AutoSize = true;
-            this.lblLogo.Font = new System.Drawing.Font("Alkhemikal", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLogo.Font = new System.Drawing.Font("Century Gothic", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLogo.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblLogo.Location = new System.Drawing.Point(87, 26);
+            this.lblLogo.Location = new System.Drawing.Point(70, 16);
             this.lblLogo.Name = "lblLogo";
-            this.lblLogo.Size = new System.Drawing.Size(201, 48);
+            this.lblLogo.Size = new System.Drawing.Size(231, 58);
             this.lblLogo.TabIndex = 0;
             this.lblLogo.Text = "STHENOS";
             this.lblLogo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

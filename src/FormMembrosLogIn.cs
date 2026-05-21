@@ -46,7 +46,6 @@ namespace WindowsFormsApp1
 
                         if (count > 0)
                         {
-                            MessageBox.Show("Login efetuado com sucesso!");
                             new FormDashboard().Show();
                             Hide();
                         }
@@ -87,6 +86,7 @@ namespace WindowsFormsApp1
             {
                 textBox1.Text = Properties.Settings.Default.userEmail;
                 textBox2.Text = Properties.Settings.Default.userPassword;
+                RememberMe.Checked = true;
             }
 
         }

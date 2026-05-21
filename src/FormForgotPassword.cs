@@ -127,5 +127,11 @@ namespace WindowsFormsApp1
                 MessageBox.Show("Código inválido.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            new FormMembrosLogIn().Show();
+            Hide();
+        }
     }
 }

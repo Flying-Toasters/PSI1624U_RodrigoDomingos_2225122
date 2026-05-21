@@ -204,6 +204,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session.cs" />
+    <EmbeddedResource Include="FormDashboard.resx">
+      <DependentUpon>FormDashboard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMembrosLogIn.resx">
       <DependentUpon>FormMembrosLogIn.cs</DependentUpon>
     </EmbeddedResource>
