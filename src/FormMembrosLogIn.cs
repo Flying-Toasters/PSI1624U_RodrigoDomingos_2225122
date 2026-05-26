@@ -46,6 +46,7 @@ namespace WindowsFormsApp1
 
                         if (count > 0)
                         {
+                            Global.GlobalVar = "Membros";
                             new FormDashboard().Show();
                             Hide();
                         }

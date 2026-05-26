@@ -45,6 +45,7 @@ namespace WindowsFormsApp1
 
                         if (count > 0)
                         {
+                            Global.GlobalVar = "Instrutores";
                             new FormDashboard().Show();
                             Hide();
                         }

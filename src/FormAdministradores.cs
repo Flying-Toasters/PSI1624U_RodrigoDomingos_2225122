@@ -41,6 +41,7 @@ namespace WindowsFormsApp1
                         if (count > 0)
                         {
                             MessageBox.Show("Acesso autorizado.");
+                            Global.GlobalVar = "Administradores";
                             new FormDashboard().Show();
                             Hide();
                         }

@@ -28,15 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDashboard));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnAtribuirPlano = new System.Windows.Forms.Button();
+            this.btnAdicionarMembro = new System.Windows.Forms.Button();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.ColunaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColunaEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColunaTelefone = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColunaPlanoAtivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColunaEditar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ColunaRemover = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.sthenosDBDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.sthenosDBDataSet = new WindowsFormsApp1.SthenosDBDataSet();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sthenosDBDataSetBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sthenosDBDataSet)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -58,6 +74,9 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btnAtribuirPlano);
+            this.tabPage1.Controls.Add(this.btnAdicionarMembro);
+            this.tabPage1.Controls.Add(this.dataGridView2);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -65,6 +84,91 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Membros";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnAtribuirPlano
+            // 
+            this.btnAtribuirPlano.Location = new System.Drawing.Point(7, 212);
+            this.btnAtribuirPlano.Name = "btnAtribuirPlano";
+            this.btnAtribuirPlano.Size = new System.Drawing.Size(100, 23);
+            this.btnAtribuirPlano.TabIndex = 3;
+            this.btnAtribuirPlano.Text = "Atribuir Plano";
+            this.btnAtribuirPlano.UseVisualStyleBackColor = true;
+            this.btnAtribuirPlano.Visible = false;
+            this.btnAtribuirPlano.Click += new System.EventHandler(this.btnAtribuirPlano_Click);
+            // 
+            // btnAdicionarMembro
+            // 
+            this.btnAdicionarMembro.Location = new System.Drawing.Point(7, 182);
+            this.btnAdicionarMembro.Name = "btnAdicionarMembro";
+            this.btnAdicionarMembro.Size = new System.Drawing.Size(100, 23);
+            this.btnAdicionarMembro.TabIndex = 2;
+            this.btnAdicionarMembro.Text = "Adicionar Membro";
+            this.btnAdicionarMembro.UseVisualStyleBackColor = true;
+            this.btnAdicionarMembro.Visible = false;
+            this.btnAdicionarMembro.Click += new System.EventHandler(this.btnAdicionarMembro_Click);
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.AutoGenerateColumns = false;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColunaNome,
+            this.ColunaEmail,
+            this.ColunaTelefone,
+            this.ColunaPlanoAtivo,
+            this.ColunaEditar,
+            this.ColunaRemover});
+            this.dataGridView2.DataSource = this.sthenosDBDataSetBindingSource;
+            this.dataGridView2.Location = new System.Drawing.Point(7, 7);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(645, 150);
+            this.dataGridView2.TabIndex = 1;
+            // 
+            // ColunaNome
+            // 
+            this.ColunaNome.HeaderText = "Nome";
+            this.ColunaNome.Name = "ColunaNome";
+            // 
+            // ColunaEmail
+            // 
+            this.ColunaEmail.HeaderText = "Email";
+            this.ColunaEmail.Name = "ColunaEmail";
+            // 
+            // ColunaTelefone
+            // 
+            this.ColunaTelefone.HeaderText = "Telefone";
+            this.ColunaTelefone.Name = "ColunaTelefone";
+            // 
+            // ColunaPlanoAtivo
+            // 
+            this.ColunaPlanoAtivo.HeaderText = "Plano Ativo";
+            this.ColunaPlanoAtivo.Name = "ColunaPlanoAtivo";
+            // 
+            // ColunaEditar
+            // 
+            this.ColunaEditar.HeaderText = "Editar";
+            this.ColunaEditar.Name = "ColunaEditar";
+            this.ColunaEditar.Text = "Editar";
+            this.ColunaEditar.UseColumnTextForButtonValue = true;
+            this.ColunaEditar.Visible = false;
+            // 
+            // ColunaRemover
+            // 
+            this.ColunaRemover.HeaderText = "Remover";
+            this.ColunaRemover.Name = "ColunaRemover";
+            this.ColunaRemover.Text = "Remover";
+            this.ColunaRemover.UseColumnTextForButtonValue = true;
+            this.ColunaRemover.Visible = false;
+            // 
+            // sthenosDBDataSetBindingSource
+            // 
+            this.sthenosDBDataSetBindingSource.DataSource = this.sthenosDBDataSet;
+            this.sthenosDBDataSetBindingSource.Position = 0;
+            // 
+            // sthenosDBDataSet
+            // 
+            this.sthenosDBDataSet.DataSetName = "SthenosDBDataSet";
+            this.sthenosDBDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // tabPage2
             // 
@@ -125,7 +229,12 @@
             this.Controls.Add(this.tabControl1);
             this.Name = "FormDashboard";
             this.Text = "FormDashboard";
+            this.Load += new System.EventHandler(this.FormDashboard_Load);
             this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sthenosDBDataSetBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sthenosDBDataSet)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -139,5 +248,16 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.BindingSource sthenosDBDataSetBindingSource;
+        private SthenosDBDataSet sthenosDBDataSet;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Button btnAtribuirPlano;
+        private System.Windows.Forms.Button btnAdicionarMembro;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColunaNome;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColunaEmail;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColunaTelefone;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColunaPlanoAtivo;
+        private System.Windows.Forms.DataGridViewButtonColumn ColunaEditar;
+        private System.Windows.Forms.DataGridViewButtonColumn ColunaRemover;
     }
 }

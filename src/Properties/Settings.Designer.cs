@@ -46,5 +46,16 @@ namespace WindowsFormsApp1.Properties {
                 this["userPassword"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SthenosDB;Integrated Security=" +
+            "True;TrustServerCertificate=True")]
+        public string SthenosDBConnectionString {
+            get {
+                return ((string)(this["SthenosDBConnectionString"]));
+            }
+        }
     }
 }
