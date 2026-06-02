@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace WindowsFormsApp1
 {
@@ -21,6 +22,8 @@ namespace WindowsFormsApp1
 
         private void FormDashboard_Load(object sender, EventArgs e)
         {
+            // TODO: esta linha de código carrega dados na tabela 'sthenosDBDataSet.PlanosAssinatura'. Você pode movê-la ou removê-la conforme necessário.
+            this.planosAssinaturaTableAdapter.Fill(this.sthenosDBDataSet.PlanosAssinatura);
             bool isAdmin = Global.GlobalVar == "Administradores";
             btnAtribuirPlano.Enabled = isAdmin;
             if (isAdmin)
@@ -32,6 +35,8 @@ namespace WindowsFormsApp1
 
 
             CarregarMembros();
+            CarregarPlanos();
+            CarregarAulas();
         }
 
         private void CarregarMembros()
@@ -168,6 +173,7 @@ namespace WindowsFormsApp1
                         MessageBox.Show("Plano atribuído com sucesso.");
                         dlg.Close();
                         CarregarMembros();
+                        
                     }
                     catch (Exception ex)
                     {
@@ -213,6 +219,101 @@ namespace WindowsFormsApp1
             }
         }
 
+        private void CarregarPlanos()
+        {
+            try
+            {
+                using (SqlConnection conn = DatabaseHelper.GetConnection())
+                {
+                    string sql = @"SELECT nome_plano AS [Nome do Plano], duracao_meses AS [Duração (meses)],
+                                   preco AS [Preço (€)], CASE ativo WHEN 1 THEN 'Ativo' ELSE 'Inativo' END
+                                   AS [Estado] FROM PlanosAssinatura ORDER BY duracao_meses";
 
+                    SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    dgvPlanos.AutoGenerateColumns = true;
+                    dgvPlanos.DataSource = dt;
+                    dgvPlanos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dgvPlanos.ReadOnly = true;
+                    dgvPlanos.AllowUserToAddRows = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao carregar planos: " + ex.Message);
+            }
+        }
+
+        private void CarregarAulas()
+        {
+            try
+            {
+                using (SqlConnection conn = DatabaseHelper.GetConnection())
+                {
+                    string sql = @"SELECT a.nome_aula AS [Aula], i.nome + '' + i.apelido AS [Instrutor],
+                                   FORMAT(a.data_hora, 'dd/MM/yyyy HH:mm') AS [Data/Hora], a.duracao_min
+                                   AS [Duração (min)], a.vagas AS [Vagas], ISNULL(a.local, '-') AS [Local]
+                                   FROM Aulas a JOIN Instrutores i ON i.id_instrutor = a.id_instrutor ORDER BY
+                                   a.data_hora";
+
+                    SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    dgvPlanos.AutoGenerateColumns = true;
+                    dgvAulas.DataSource = dt;
+                    dgvAulas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dgvPlanos.ReadOnly = true;
+                    dgvPlanos.AllowUserToAddRows = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao carregar aulas: " + ex.Message);
+            }
+        }
+
+        private void btnAdicionarAula_Click(object sender, EventArgs e)
+        {
+            using (Form dlg = new Form())
+            {
+                dlg.Text = "Adicionar Aula";
+                dlg.Size = new System.Drawing.Size(340, 310);
+                dlg.StartPosition = FormStartPosition.CenterParent;
+                dlg.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dlg.MaximizeBox = false;
+
+                Label lblNome = new Label { Text = "Nome:", Left = 10, Top = 12, Width = 90 };
+
+                TextBox txtNome = new TextBox { Left = 110, Top = 12, Width = 200 };
+
+                Label lblInst = new Label { Text = "Instrutor:", Left = 10, Top = 45, Width = 90 };
+
+                ComboBox cbInst = new ComboBox { Left = 110, Top = 45, Width = 200, DropDownStyle = ComboBoxStyle.DropDownList };
+
+                Label lblDH = new Label { Text = "Data/Hora:", Left = 10, Top = 90, Width = 90 };
+
+                DateTimePicker dtpDH = new DateTimePicker { Left = 110, Top = 90, Width = 200, Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MM/yyyy HH:mm", ShowUpDown = false, Value = DateTime.Now };
+
+                Label lblDur = new Label { Text = "Duração (min):", Left = 110, Top = 117, Width = 90 };
+
+                NumericUpDown nudDur = new NumericUpDown { Left = 110, Top = 117, Width = 80, Minimum = 15, Maximum = 240, Value = 60, Increment = 15 };
+
+                Label lblVagas = new Label { Text = "Vagas:", Left = 10, Top = 152, Width = 90 };
+
+                NumericUpDown nudVagas = new NumericUpDown { Left = 110, Top = 152, Width = 80, Minimum = 1, Maximum = 200, Value = 20 };
+
+                Label lblLocal = new Label { Text = "Local:", Left = 10, Top = 187, Width = 200 };
+
+                TextBox txtLocal = new TextBox { Left = 110, Top = 187, Width = 200 };
+
+                Button btnOk = new Button { Text = "Guardar", Left = 120, Top = 232, Width = 90 };
+
+
+
+            }
+        }
     }
 }

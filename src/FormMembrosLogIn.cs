@@ -105,5 +105,11 @@ namespace WindowsFormsApp1
                 pictureBox2.BackgroundImage = Image.FromFile("C:\\Users\\2225122\\Documents\\eye_15732967.png");
             }
         }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            Global.GlobalVar = "Administradores";
+             new FormDashboard().Show();
+        }
     }
 }
