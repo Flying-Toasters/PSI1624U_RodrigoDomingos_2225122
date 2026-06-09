@@ -22,17 +22,15 @@ namespace WindowsFormsApp1
 
         private void FormDashboard_Load(object sender, EventArgs e)
         {
-            // TODO: esta linha de código carrega dados na tabela 'sthenosDBDataSet.PlanosAssinatura'. Você pode movê-la ou removê-la conforme necessário.
+            
             this.planosAssinaturaTableAdapter.Fill(this.sthenosDBDataSet.PlanosAssinatura);
             bool isAdmin = Global.GlobalVar == "Administradores";
-            btnAtribuirPlano.Enabled = isAdmin;
-            if (isAdmin)
-            {
-                btnAtribuirPlano.Visible = true;
-            }
+            btnAtribuirPlano.Visible = isAdmin;
             ColunaEditar.Visible = isAdmin;
             ColunaRemover.Visible = isAdmin;
-
+            btnAdicionarAula.Visible = isAdmin;
+            RemoverAula.Visible = isAdmin;
+            
 
             CarregarMembros();
             CarregarPlanos();
@@ -55,6 +53,7 @@ namespace WindowsFormsApp1
                     SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
+
 
                     dgvMembros.AutoGenerateColumns = false;
                     dgvMembros.DataSource = dt;
@@ -252,7 +251,7 @@ namespace WindowsFormsApp1
             {
                 using (SqlConnection conn = DatabaseHelper.GetConnection())
                 {
-                    string sql = @"SELECT a.nome_aula AS [Aula], i.nome + '' + i.apelido AS [Instrutor],
+                    string sql = @"SELECT a.id_aula, a.nome_aula AS [Aula], i.nome + ' ' + i.apelido AS [Instrutor],
                                    FORMAT(a.data_hora, 'dd/MM/yyyy HH:mm') AS [Data/Hora], a.duracao_min
                                    AS [Duração (min)], a.vagas AS [Vagas], ISNULL(a.local, '-') AS [Local]
                                    FROM Aulas a JOIN Instrutores i ON i.id_instrutor = a.id_instrutor ORDER BY
@@ -262,11 +261,11 @@ namespace WindowsFormsApp1
                     DataTable dt = new DataTable();
                     da.Fill(dt);
 
-                    dgvPlanos.AutoGenerateColumns = true;
+                    dgvAulas.AutoGenerateColumns = true;
                     dgvAulas.DataSource = dt;
                     dgvAulas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                    dgvPlanos.ReadOnly = true;
-                    dgvPlanos.AllowUserToAddRows = false;
+                    dgvAulas.ReadOnly = true;
+                    dgvAulas.AllowUserToAddRows = false;
                 }
             }
             catch (Exception ex)
@@ -285,7 +284,7 @@ namespace WindowsFormsApp1
                 dlg.FormBorderStyle = FormBorderStyle.FixedDialog;
                 dlg.MaximizeBox = false;
 
-                Label lblNome = new Label { Text = "Nome:", Left = 10, Top = 12, Width = 90 };
+                Label lblNome = new Label { Text = "Nome da Aula:", Left = 10, Top = 12, Width = 90 };
 
                 TextBox txtNome = new TextBox { Left = 110, Top = 12, Width = 200 };
 
@@ -297,7 +296,7 @@ namespace WindowsFormsApp1
 
                 DateTimePicker dtpDH = new DateTimePicker { Left = 110, Top = 90, Width = 200, Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MM/yyyy HH:mm", ShowUpDown = false, Value = DateTime.Now };
 
-                Label lblDur = new Label { Text = "Duração (min):", Left = 110, Top = 117, Width = 90 };
+                Label lblDur = new Label { Text = "Duração (min):", Left = 10, Top = 117, Width = 90 };
 
                 NumericUpDown nudDur = new NumericUpDown { Left = 110, Top = 117, Width = 80, Minimum = 15, Maximum = 240, Value = 60, Increment = 15 };
 
@@ -305,15 +304,153 @@ namespace WindowsFormsApp1
 
                 NumericUpDown nudVagas = new NumericUpDown { Left = 110, Top = 152, Width = 80, Minimum = 1, Maximum = 200, Value = 20 };
 
-                Label lblLocal = new Label { Text = "Local:", Left = 10, Top = 187, Width = 200 };
+                Label lblLocal = new Label { Text = "Local:", Left = 10, Top = 187, Width = 90 };
 
                 TextBox txtLocal = new TextBox { Left = 110, Top = 187, Width = 200 };
 
                 Button btnOk = new Button { Text = "Guardar", Left = 120, Top = 232, Width = 90 };
 
 
+                try
+                {
+                    using (SqlConnection conn = DatabaseHelper.GetConnection())
+                    {
+                        string sql = "SELECT id_instrutor, nome + ' ' + apelido AS label FROM Instrutores WHERE ativo=1 ORDER BY nome";
+                        SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        cbInst.DisplayMember = "label";
+                        cbInst.ValueMember = "id_instrutor";
+                        cbInst.DataSource = dt;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao carregar instrutores: " + ex.Message);
+                    return;
+                }
 
+                btnOk.Click += (s, ev) =>
+                {
+                    if (string.IsNullOrWhiteSpace(txtNome.Text) || cbInst.SelectedValue == null)
+                    {
+                        MessageBox.Show("Nome e instrutor são obrigatórios.");
+                        return;
+                    }
+
+                    try
+                    {
+                        using (SqlConnection conn = DatabaseHelper.GetConnection())
+                        {
+                            string sql = @"
+                            INSERT INTO Aulas (nome_aula, id_instrutor, data_hora, duracao_min, vagas, local)
+                            VALUES (@nome, @instrutor, @datahora, @duracao, @vagas, @local)";
+
+                            SqlCommand cmd = new SqlCommand(sql, conn);
+                            cmd.Parameters.AddWithValue("@nome", txtNome.Text.Trim());
+                            cmd.Parameters.AddWithValue("@instrutor", (int)cbInst.SelectedValue);
+                            cmd.Parameters.AddWithValue("@datahora", dtpDH.Value);
+                            cmd.Parameters.AddWithValue("@duracao", (int)nudDur.Value);
+                            cmd.Parameters.AddWithValue("@vagas", (int)nudVagas.Value);
+                            cmd.Parameters.AddWithValue("@local", string.IsNullOrWhiteSpace(txtLocal.Text) ? (object)DBNull.Value : txtLocal.Text.Trim());
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        MessageBox.Show("Aula adicionada com sucesso.");
+                        dlg.Close();
+                        CarregarAulas();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erro ao adicionar aula: " + ex.Message);
+                    }
+                };
+
+                dlg.Controls.AddRange(new Control[]
+
+                {
+                    lblNome, txtNome, lblInst, cbInst, lblDH, dtpDH, lblDur, nudDur, lblVagas, nudVagas, lblLocal, txtLocal, btnOk
+                });
+                dlg.ShowDialog(this);
             }
         }
+
+        private void dgvAulas_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            int idAula = (int)((DataRowView)dgvAulas.Rows[e.RowIndex].DataBoundItem).Row["id_aula"];
+            if (dgvAulas.Columns[e.ColumnIndex].Name == "RemoverAula")
+            {
+                if (MessageBox.Show("Remover esta aula?", "Confirmar", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+
+                try
+                {
+                    using (SqlConnection conn = DatabaseHelper.GetConnection())
+                    {
+                        SqlCommand cmdInsc = new SqlCommand("DELETE FROM Inscricoes WHERE id_aula = @id", conn);
+                        cmdInsc.Parameters.AddWithValue("@id", idAula);
+                        cmdInsc.ExecuteNonQuery();
+                        SqlCommand cmdaula = new SqlCommand("DELETE FROM Aulas WHERE id_aula = @id", conn);
+                        cmdaula.Parameters.AddWithValue("@id", idAula);
+                        cmdaula.ExecuteNonQuery();
+                    }
+                    MessageBox.Show("Aula removida.");
+                    CarregarAulas();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao remover aula: " + ex.Message);
+                }
+            }
+
+            if (dgvAulas.Columns[e.ColumnIndex].Name == "InscreverAula")
+            {
+                try
+                {
+                    using (SqlConnection conn = DatabaseHelper.GetConnection())
+                    {
+                        SqlCommand cmdCheck = new SqlCommand(@"SELECT COUNT(*) FROM Inscricoes WHERE id_membro = @m AND id_aula = @a", conn);
+                        cmdCheck.Parameters.AddWithValue("@m", Session.UserId);
+                        cmdCheck.Parameters.AddWithValue("@a", idAula);
+                        int jaInscrito = (int)cmdCheck.ExecuteScalar();
+                        if (jaInscrito > 0)
+                        {
+                            MessageBox.Show("Já estás inscrito nesta aula.");
+                            return;
+                        }
+
+                        SqlCommand cmdVagas = new SqlCommand(@"SELECT a.vagas - COUNT (i.id_inscricao) FROM AULAS a LEFT JOIN Inscricoes i ON i.id_aula = a.id_aula WHERE a.id_aula = @a GROUP BY a.vagas", conn);
+                        cmdVagas.Parameters.AddWithValue("@a", idAula);
+                        object resultado = cmdVagas.ExecuteScalar();
+                        int vagasLivres = resultado != null ? (int)resultado : 0;
+
+                        if (vagasLivres <= 0)
+                        {
+                            MessageBox.Show("Não há vagas disponíveis nesta aula.");
+                            return;
+                        }
+
+                        SqlCommand cmdInsc = new SqlCommand(@"INSERT INTO Inscricoes (id_membro, id_aula)
+                                                              VALUES (@m, @a)", conn);
+                        cmdInsc.Parameters.AddWithValue("@m", Session.UserId);
+                        cmdInsc.Parameters.AddWithValue("@a", idAula);
+                        cmdInsc.ExecuteNonQuery();
+                    }
+                    MessageBox.Show("Inscrição realizada com sucesso.");
+                    CarregarAulas();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao inscrever: " + ex.Message);
+                }
+            }
+
+
+
+
+
+        }
+
+
     }
 }

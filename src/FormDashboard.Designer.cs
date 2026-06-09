@@ -46,6 +46,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgvPlanos = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnAdicionarAula = new System.Windows.Forms.Button();
             this.dgvAulas = new System.Windows.Forms.DataGridView();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.dgvPagamentos = new System.Windows.Forms.DataGridView();
@@ -55,7 +56,8 @@
             this.dgvEquipamentos = new System.Windows.Forms.DataGridView();
             this.planosAssinaturaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.planosAssinaturaTableAdapter = new WindowsFormsApp1.SthenosDBDataSetTableAdapters.PlanosAssinaturaTableAdapter();
-            this.btnAdicionarAula = new System.Windows.Forms.Button();
+            this.RemoverAula = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.InscreverAula = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMembros)).BeginInit();
@@ -228,16 +230,30 @@
             this.tabPage3.Text = "Aulas";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // btnAdicionarAula
+            // 
+            this.btnAdicionarAula.Location = new System.Drawing.Point(6, 162);
+            this.btnAdicionarAula.Name = "btnAdicionarAula";
+            this.btnAdicionarAula.Size = new System.Drawing.Size(75, 23);
+            this.btnAdicionarAula.TabIndex = 1;
+            this.btnAdicionarAula.Text = "Adicionar Aula";
+            this.btnAdicionarAula.UseVisualStyleBackColor = true;
+            this.btnAdicionarAula.Click += new System.EventHandler(this.btnAdicionarAula_Click);
+            // 
             // dgvAulas
             // 
             this.dgvAulas.AutoGenerateColumns = false;
             this.dgvAulas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAulas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.RemoverAula,
+            this.InscreverAula});
             this.dgvAulas.DataSource = this.sthenosDBDataSetBindingSource;
             this.dgvAulas.Location = new System.Drawing.Point(6, 6);
             this.dgvAulas.Name = "dgvAulas";
             this.dgvAulas.ReadOnly = true;
-            this.dgvAulas.Size = new System.Drawing.Size(514, 150);
+            this.dgvAulas.Size = new System.Drawing.Size(756, 150);
             this.dgvAulas.TabIndex = 0;
+            this.dgvAulas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAulas_CellContentClick);
             // 
             // tabPage4
             // 
@@ -311,15 +327,23 @@
             // 
             this.planosAssinaturaTableAdapter.ClearBeforeFill = true;
             // 
-            // btnAdicionarAula
+            // RemoverAula
             // 
-            this.btnAdicionarAula.Location = new System.Drawing.Point(35, 207);
-            this.btnAdicionarAula.Name = "btnAdicionarAula";
-            this.btnAdicionarAula.Size = new System.Drawing.Size(75, 23);
-            this.btnAdicionarAula.TabIndex = 1;
-            this.btnAdicionarAula.Text = "Adicionar Aula";
-            this.btnAdicionarAula.UseVisualStyleBackColor = true;
-            this.btnAdicionarAula.Click += new System.EventHandler(this.btnAdicionarAula_Click);
+            this.RemoverAula.HeaderText = "";
+            this.RemoverAula.Name = "RemoverAula";
+            this.RemoverAula.ReadOnly = true;
+            this.RemoverAula.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.RemoverAula.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.RemoverAula.Text = "Remover Aula";
+            this.RemoverAula.UseColumnTextForButtonValue = true;
+            // 
+            // InscreverAula
+            // 
+            this.InscreverAula.HeaderText = "";
+            this.InscreverAula.Name = "InscreverAula";
+            this.InscreverAula.ReadOnly = true;
+            this.InscreverAula.Text = "Inscrever Aula";
+            this.InscreverAula.UseColumnTextForButtonValue = true;
             // 
             // FormDashboard
             // 
@@ -379,5 +403,7 @@
         private System.Windows.Forms.BindingSource planosAssinaturaBindingSource;
         private SthenosDBDataSetTableAdapters.PlanosAssinaturaTableAdapter planosAssinaturaTableAdapter;
         private System.Windows.Forms.Button btnAdicionarAula;
+        private System.Windows.Forms.DataGridViewButtonColumn RemoverAula;
+        private System.Windows.Forms.DataGridViewButtonColumn InscreverAula;
     }
 }

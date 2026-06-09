@@ -34,7 +34,7 @@ namespace WindowsFormsApp1
             {
                 using (SqlConnection conn = DatabaseHelper.GetConnection())
                 {
-                    string query = @"SELECT COUNT(*) FROM Membros 
+                    string query = @"SELECT id_membro FROM Membros 
                                      WHERE email=@email AND palavra_passe=@password";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -42,11 +42,14 @@ namespace WindowsFormsApp1
                         cmd.Parameters.AddWithValue("@email", email);
                         cmd.Parameters.AddWithValue("@password", passwordHash);
 
-                        int count = (int)cmd.ExecuteScalar();
+                        object resultado = cmd.ExecuteScalar();
 
-                        if (count > 0)
+                        if(resultado != null)
                         {
+                            Session.UserId = (int)resultado;
+                            Session.Role = "Membro";
                             Global.GlobalVar = "Membros";
+
                             new FormDashboard().Show();
                             Hide();
                         }
@@ -110,6 +113,7 @@ namespace WindowsFormsApp1
         {
             Global.GlobalVar = "Administradores";
              new FormDashboard().Show();
+            this.Hide();
         }
     }
 }
