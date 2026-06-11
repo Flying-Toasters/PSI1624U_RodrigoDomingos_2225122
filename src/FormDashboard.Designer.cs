@@ -48,6 +48,8 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.btnAdicionarAula = new System.Windows.Forms.Button();
             this.dgvAulas = new System.Windows.Forms.DataGridView();
+            this.RemoverAula = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.InscreverAula = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.dgvPagamentos = new System.Windows.Forms.DataGridView();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -56,8 +58,10 @@
             this.dgvEquipamentos = new System.Windows.Forms.DataGridView();
             this.planosAssinaturaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.planosAssinaturaTableAdapter = new WindowsFormsApp1.SthenosDBDataSetTableAdapters.PlanosAssinaturaTableAdapter();
-            this.RemoverAula = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.InscreverAula = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btnAdicionarEvento = new System.Windows.Forms.Button();
+            this.RemoverEvento = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.InscreverEvento = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Participantes = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMembros)).BeginInit();
@@ -90,7 +94,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(776, 426);
+            this.tabControl1.Size = new System.Drawing.Size(894, 426);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -100,7 +104,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(768, 400);
+            this.tabPage1.Size = new System.Drawing.Size(886, 400);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Membros";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -133,7 +137,7 @@
             this.dgvMembros.Location = new System.Drawing.Point(7, 7);
             this.dgvMembros.Name = "dgvMembros";
             this.dgvMembros.ReadOnly = true;
-            this.dgvMembros.Size = new System.Drawing.Size(755, 150);
+            this.dgvMembros.Size = new System.Drawing.Size(873, 150);
             this.dgvMembros.TabIndex = 1;
             this.dgvMembros.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMembros_CellContentClick);
             // 
@@ -202,7 +206,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(768, 400);
+            this.tabPage2.Size = new System.Drawing.Size(886, 400);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Planos";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -215,7 +219,7 @@
             this.dgvPlanos.Location = new System.Drawing.Point(6, 6);
             this.dgvPlanos.Name = "dgvPlanos";
             this.dgvPlanos.ReadOnly = true;
-            this.dgvPlanos.Size = new System.Drawing.Size(445, 150);
+            this.dgvPlanos.Size = new System.Drawing.Size(874, 150);
             this.dgvPlanos.TabIndex = 0;
             // 
             // tabPage3
@@ -225,7 +229,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(768, 400);
+            this.tabPage3.Size = new System.Drawing.Size(886, 400);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Aulas";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -251,81 +255,9 @@
             this.dgvAulas.Location = new System.Drawing.Point(6, 6);
             this.dgvAulas.Name = "dgvAulas";
             this.dgvAulas.ReadOnly = true;
-            this.dgvAulas.Size = new System.Drawing.Size(756, 150);
+            this.dgvAulas.Size = new System.Drawing.Size(874, 150);
             this.dgvAulas.TabIndex = 0;
             this.dgvAulas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAulas_CellContentClick);
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.dgvPagamentos);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(768, 400);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Pagamentos";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // dgvPagamentos
-            // 
-            this.dgvPagamentos.AutoGenerateColumns = false;
-            this.dgvPagamentos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPagamentos.DataSource = this.sthenosDBDataSetBindingSource;
-            this.dgvPagamentos.Location = new System.Drawing.Point(112, 47);
-            this.dgvPagamentos.Name = "dgvPagamentos";
-            this.dgvPagamentos.Size = new System.Drawing.Size(240, 150);
-            this.dgvPagamentos.TabIndex = 0;
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.Controls.Add(this.dgvEventos);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(768, 400);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "Eventos";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // dgvEventos
-            // 
-            this.dgvEventos.AutoGenerateColumns = false;
-            this.dgvEventos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvEventos.DataSource = this.sthenosDBDataSetBindingSource;
-            this.dgvEventos.Location = new System.Drawing.Point(165, 64);
-            this.dgvEventos.Name = "dgvEventos";
-            this.dgvEventos.Size = new System.Drawing.Size(240, 150);
-            this.dgvEventos.TabIndex = 0;
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.Controls.Add(this.dgvEquipamentos);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(768, 400);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "Equipamentos";
-            this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // dgvEquipamentos
-            // 
-            this.dgvEquipamentos.AutoGenerateColumns = false;
-            this.dgvEquipamentos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvEquipamentos.DataSource = this.sthenosDBDataSetBindingSource;
-            this.dgvEquipamentos.Location = new System.Drawing.Point(178, 57);
-            this.dgvEquipamentos.Name = "dgvEquipamentos";
-            this.dgvEquipamentos.Size = new System.Drawing.Size(240, 150);
-            this.dgvEquipamentos.TabIndex = 0;
-            // 
-            // planosAssinaturaBindingSource
-            // 
-            this.planosAssinaturaBindingSource.DataMember = "PlanosAssinatura";
-            this.planosAssinaturaBindingSource.DataSource = this.sthenosDBDataSetBindingSource;
-            // 
-            // planosAssinaturaTableAdapter
-            // 
-            this.planosAssinaturaTableAdapter.ClearBeforeFill = true;
             // 
             // RemoverAula
             // 
@@ -345,12 +277,128 @@
             this.InscreverAula.Text = "Inscrever Aula";
             this.InscreverAula.UseColumnTextForButtonValue = true;
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.dgvPagamentos);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(886, 400);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Pagamentos";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // dgvPagamentos
+            // 
+            this.dgvPagamentos.AutoGenerateColumns = false;
+            this.dgvPagamentos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvPagamentos.DataSource = this.sthenosDBDataSetBindingSource;
+            this.dgvPagamentos.Location = new System.Drawing.Point(6, 6);
+            this.dgvPagamentos.Name = "dgvPagamentos";
+            this.dgvPagamentos.ReadOnly = true;
+            this.dgvPagamentos.Size = new System.Drawing.Size(874, 150);
+            this.dgvPagamentos.TabIndex = 0;
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.btnAdicionarEvento);
+            this.tabPage5.Controls.Add(this.dgvEventos);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(886, 400);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Eventos";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // dgvEventos
+            // 
+            this.dgvEventos.AutoGenerateColumns = false;
+            this.dgvEventos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvEventos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.RemoverEvento,
+            this.InscreverEvento,
+            this.Participantes});
+            this.dgvEventos.DataSource = this.sthenosDBDataSetBindingSource;
+            this.dgvEventos.Location = new System.Drawing.Point(6, 6);
+            this.dgvEventos.Name = "dgvEventos";
+            this.dgvEventos.ReadOnly = true;
+            this.dgvEventos.Size = new System.Drawing.Size(874, 150);
+            this.dgvEventos.TabIndex = 0;
+            this.dgvEventos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEventos_CellContentClick);
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.dgvEquipamentos);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(886, 400);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "Equipamentos";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // dgvEquipamentos
+            // 
+            this.dgvEquipamentos.AutoGenerateColumns = false;
+            this.dgvEquipamentos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvEquipamentos.DataSource = this.sthenosDBDataSetBindingSource;
+            this.dgvEquipamentos.Location = new System.Drawing.Point(6, 6);
+            this.dgvEquipamentos.Name = "dgvEquipamentos";
+            this.dgvEquipamentos.Size = new System.Drawing.Size(874, 150);
+            this.dgvEquipamentos.TabIndex = 0;
+            // 
+            // planosAssinaturaBindingSource
+            // 
+            this.planosAssinaturaBindingSource.DataMember = "PlanosAssinatura";
+            this.planosAssinaturaBindingSource.DataSource = this.sthenosDBDataSetBindingSource;
+            // 
+            // planosAssinaturaTableAdapter
+            // 
+            this.planosAssinaturaTableAdapter.ClearBeforeFill = true;
+            // 
+            // btnAdicionarEvento
+            // 
+            this.btnAdicionarEvento.Location = new System.Drawing.Point(7, 163);
+            this.btnAdicionarEvento.Name = "btnAdicionarEvento";
+            this.btnAdicionarEvento.Size = new System.Drawing.Size(97, 23);
+            this.btnAdicionarEvento.TabIndex = 1;
+            this.btnAdicionarEvento.Text = "Adicionar Evento";
+            this.btnAdicionarEvento.UseVisualStyleBackColor = true;
+            this.btnAdicionarEvento.Click += new System.EventHandler(this.btnAdicionarEvento_Click);
+            // 
+            // RemoverEvento
+            // 
+            this.RemoverEvento.HeaderText = "";
+            this.RemoverEvento.Name = "RemoverEvento";
+            this.RemoverEvento.ReadOnly = true;
+            this.RemoverEvento.Text = "Remover Evento";
+            this.RemoverEvento.UseColumnTextForButtonValue = true;
+            // 
+            // InscreverEvento
+            // 
+            this.InscreverEvento.HeaderText = "";
+            this.InscreverEvento.Name = "InscreverEvento";
+            this.InscreverEvento.ReadOnly = true;
+            this.InscreverEvento.Text = "Inscrever Evento";
+            this.InscreverEvento.UseColumnTextForButtonValue = true;
+            // 
+            // Participantes
+            // 
+            this.Participantes.HeaderText = "";
+            this.Participantes.Name = "Participantes";
+            this.Participantes.ReadOnly = true;
+            this.Participantes.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Participantes.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Participantes.Text = "Participantes";
+            this.Participantes.UseColumnTextForButtonValue = true;
+            // 
             // FormDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(918, 450);
             this.Controls.Add(this.tabControl1);
             this.Name = "FormDashboard";
             this.Text = "FormDashboard";
@@ -405,5 +453,9 @@
         private System.Windows.Forms.Button btnAdicionarAula;
         private System.Windows.Forms.DataGridViewButtonColumn RemoverAula;
         private System.Windows.Forms.DataGridViewButtonColumn InscreverAula;
+        private System.Windows.Forms.Button btnAdicionarEvento;
+        private System.Windows.Forms.DataGridViewButtonColumn RemoverEvento;
+        private System.Windows.Forms.DataGridViewButtonColumn InscreverEvento;
+        private System.Windows.Forms.DataGridViewButtonColumn Participantes;
     }
 }

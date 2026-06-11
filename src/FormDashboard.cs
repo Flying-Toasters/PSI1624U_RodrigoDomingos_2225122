@@ -35,6 +35,9 @@ namespace WindowsFormsApp1
             CarregarMembros();
             CarregarPlanos();
             CarregarAulas();
+            CarregarPagamentos();
+            CarregarEventos();
+            CarregarEquipamentos();
         }
 
         private void CarregarMembros()
@@ -444,13 +447,324 @@ namespace WindowsFormsApp1
                     MessageBox.Show("Erro ao inscrever: " + ex.Message);
                 }
             }
-
-
-
-
-
         }
 
+        private void CarregarPagamentos()
+        {
+            try
+            {
+                using (SqlConnection conn = DatabaseHelper.GetConnection())
+                {
+                    string sql = @"SELECT m.nome + ' ' + m.apelido AS [Membro], pa.nome_plano AS [Plano], p.valor
+                                   AS [Valor (€)], FORMAT(p.data_pagamento, 'dd/MM/yyyy') AS [Data Pagamento],
+                                   FORMAT (p.data_inicio, 'dd/MM/yyyy') AS [Início],
+                                   FORMAT (p.data_fim, 'dd/MM/yyyy') AS [Fim], p.estado AS [Estado]
+                                   FROM Pagamentos p JOIN Membros m ON m.id_membro = p.id_membro
+                                   JOIN PlanosAssinatura pa ON pa.id_plano = p.id_plano
+                                   ORDER BY p.data_pagamento DESC";
+
+                    SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    dgvPagamentos.AutoGenerateColumns = true;
+                    dgvPagamentos.DataSource = dt;
+                    dgvPagamentos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dgvPagamentos.ReadOnly = true;
+                    dgvPagamentos.AllowUserToAddRows = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao carregar pagamentos: " + ex.Message);
+            }
+        }
+
+        private void CarregarEventos()
+        {
+            try
+            {
+                using (SqlConnection conn = DatabaseHelper.GetConnection())
+                {
+                    string sql = @"SELECT id_evento, nome_evento AS [Evento], ISNULL(tipo, '-') AS [Tipo], ISNULL (local, '-') AS [Local],
+                                   FORMAT (data_inicio, 'dd/MM/yyyy HH:mm') AS [Início], FORMAT (data_fim, 'dd/MM/yyyy HH:mm') AS [Fim],
+                                   vagas AS [Vagas] FROM Eventos ORDER BY data_inicio";
+
+                    SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    dgvEventos.AutoGenerateColumns = true;
+                    dgvEventos.DataSource = dt;
+                    dgvEventos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dgvEventos.ReadOnly = true;
+                    dgvEventos.AllowUserToAddRows = false;
+
+                    if (dgvEventos.Columns["id_evento"] != null)
+                        dgvEventos.Columns["id_evento"].Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao carregar eventos: " + ex.Message);
+            }
+        }
+
+        private void btnAdicionarEvento_Click(object sender, EventArgs e)
+        {
+            using (Form dlg = new Form())
+            {
+                dlg.Text = "Adicionar Evento";
+                dlg.Size = new System.Drawing.Size(340, 360);
+                dlg.StartPosition = FormStartPosition.CenterParent;
+                dlg.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dlg.MaximizeBox = false;
+
+                
+
+                Label lblNome = new Label { Text = "Nome do Evento:", Left = 10, Top = 12, Width = 90 };
+
+                TextBox txtNome = new TextBox { Left = 110, Top = 12, Width = 200 };
+
+                Label lblTipo = new Label { Text = "Tipo:", Left = 10, Top = 45, Width = 90 };
+
+                ComboBox cbTipo = new ComboBox { Left = 110, Top = 45, Width = 200, DropDownStyle = ComboBoxStyle.DropDownList };
+                cbTipo.Items.AddRange(new object[] { "Torneio", "Campeonato", "Workshop" });
+
+                Label lblInicio = new Label { Text = "Início:", Left = 10, Top = 90, Width = 90 };
+
+                DateTimePicker dtpInicio = new DateTimePicker { Left = 110, Top = 90, Width = 200, Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MM/yyyy HH:mm", ShowUpDown = false, Value = DateTime.Now };
+
+                Label lblFim = new Label { Text = "Fim:", Left = 10, Top = 120, Width = 90 };
+
+                DateTimePicker dtpFim = new DateTimePicker { Left = 110, Top = 120, Width = 200, Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MM/yyyy HH:mm", ShowUpDown = false, Value = DateTime.Now };
+
+                Label lblVagas = new Label { Text = "Vagas:", Left = 10, Top = 152, Width = 90 };
+
+                NumericUpDown nudVagas = new NumericUpDown { Left = 110, Top = 152, Width = 80, Minimum = 1, Maximum = 200, Value = 20 };
+
+                Label lblLocal = new Label { Text = "Local:", Left = 10, Top = 187, Width = 90 };
+
+                TextBox txtLocal = new TextBox { Left = 110, Top = 187, Width = 200 };
+
+                Label lblDesc = new Label { Text = "Descrição:", Left = 10, Top = 222, Width = 90 };
+
+                TextBox txtDesc = new TextBox { Left = 110, Top = 222, Width = 200, Height = 50, Multiline = true };
+
+                Button btnOk = new Button { Text = "Guardar", Left = 120, Top = 282, Width = 90 };
+
+                btnOk.Click += (s, ev) =>
+                {
+                    if (string.IsNullOrWhiteSpace(txtNome.Text))
+                    {
+                        MessageBox.Show("O nome do evento é obrigatório.");
+                        return;
+                    }
+
+                    if (dtpFim.Value <= dtpInicio.Value)
+                    {
+                        MessageBox.Show("A data de fim deve ser posterior à data de início.");
+                        return;
+                    }
+
+                    try
+                    {
+                        using (SqlConnection conn = DatabaseHelper.GetConnection())
+                        {
+                            string sql = @"INSERT INTO Eventos (nome_evento, descricao, local, data_inicio, data_fim, vagas, tipo)
+                                           VALUES (@nome, @desc, @local, @inicio, @fim, @vagas, @tipo)";
+                            SqlCommand cmd = new SqlCommand(sql, conn);
+
+                            cmd.Parameters.AddWithValue("@nome", txtNome.Text.Trim());
+                            cmd.Parameters.AddWithValue("@desc", string.IsNullOrWhiteSpace(txtDesc.Text) ? (object)DBNull.Value : txtDesc.Text.Trim());
+                            cmd.Parameters.AddWithValue("@local", string.IsNullOrWhiteSpace(txtLocal.Text) ? (object)DBNull.Value : txtLocal.Text.Trim());
+                            cmd.Parameters.AddWithValue("@inicio", dtpInicio.Value);
+                            cmd.Parameters.AddWithValue("@fim", dtpFim.Value);
+                            cmd.Parameters.AddWithValue("@vagas", (int)nudVagas.Value);
+                            cmd.Parameters.AddWithValue("@tipo", cbTipo.SelectedItem.ToString());
+                            cmd.ExecuteNonQuery();
+                        }
+                        MessageBox.Show("Evento adicionado com sucesso.");
+                        dlg.Close();
+                        CarregarEventos();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erro ao adicionar evento: " + ex.Message);
+                    }
+                };
+
+                dlg.Controls.AddRange(new Control[] { lblNome, txtNome, lblTipo, cbTipo, lblLocal, txtLocal, lblInicio, dtpInicio, lblFim, dtpFim, lblVagas, nudVagas, lblDesc, txtDesc, btnOk });
+                dlg.ShowDialog(this);
+            }
+        }
+
+        private void dgvEventos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            int idEvento = (int)((DataRowView)dgvEventos.Rows[e.RowIndex].DataBoundItem).Row["id_evento"];
+
+            string colName = dgvEventos.Columns[e.ColumnIndex].Name;
+
+            if (colName == "RemoverEvento")
+            {
+                if (MessageBox.Show("Resmover este evento?", "Confirmar", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+
+                try
+                {
+                    using (SqlConnection conn = DatabaseHelper.GetConnection())
+                    {
+                        SqlCommand cmdInsc = new SqlCommand("DELETE FROM InscricoesEventos WHERE id_evento = @id", conn);
+                        cmdInsc.Parameters.AddWithValue("@id", idEvento);
+                        cmdInsc.ExecuteNonQuery();
+                        SqlCommand cmdEvento = new SqlCommand("DELETE FROM Eventos WHERE id_evento = @id", conn);
+                        cmdEvento.Parameters.AddWithValue("@id", idEvento);
+                        cmdEvento.ExecuteNonQuery();
+                    }
+                    MessageBox.Show("Evento removido.");
+                    CarregarEventos();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao remover evento: " + ex.Message);
+                }
+                return;
+            }
+
+            if (colName == "InscreverEvento")
+            {
+                try
+                {
+                   using (SqlConnection conn = DatabaseHelper.GetConnection())
+                    {
+
+                        SqlCommand cmdCheck = new SqlCommand(@"SELECT COUNT(*) FROM InscricoesEventos WHERE id_membro = @m AND id_evento = @ev", conn);
+                        cmdCheck.Parameters.AddWithValue("@m", Session.UserId);
+                        cmdCheck.Parameters.AddWithValue("@ev", idEvento);
+                        int jaInscrito = (int)cmdCheck.ExecuteScalar();
+                        if (jaInscrito > 0)
+                        {
+                            MessageBox.Show("Já estás inscrito neste evento.");
+                            return;
+                        }
+
+                        SqlCommand cmdVagas = new SqlCommand(@"SELECT ev.vagas - COUNT(ie.id_inscricao_ev) FROM Eventos ev LEFT JOIN InscricoesEventos ie ON ie.id_evento = ev.id_evento
+                                                               WHERE ev.id_evento = @ev GROUP BY ev.vagas", conn);
+
+                        cmdVagas.Parameters.AddWithValue("@ev", idEvento);
+                        object resultado = cmdVagas.ExecuteScalar();
+                        int vagasLivres = resultado != null ? (int)resultado : 0;
+
+                        if (vagasLivres <= 0)
+                        {
+                            MessageBox.Show("Não há vagas disponíveis para este evento.");
+                            return;
+                        }
+
+                        SqlCommand cmdInsc = new SqlCommand(@"INSERT INTO InscricoesEventos (id_membro, id_evento) VALUES (@m, @ev)", conn);
+                        cmdInsc.Parameters.AddWithValue("@m", Session.UserId);
+                        cmdInsc.Parameters.AddWithValue("@ev", idEvento);
+                        cmdInsc.ExecuteNonQuery();
+                    }
+                    MessageBox.Show("Inscrição realizada com sucesso.");
+                    CarregarEventos();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao inscrever: " + ex.Message);
+                }
+                return;
+            }
+
+            if (colName == "Participantes")
+            {
+                MostrarParticipantes("Participantes do Evento", @"SELECT m.nome + ' ' + m.apelido AS Membro, m.email AS Email, FORMAT (ie.data_inscricao, 'dd/MM/yyyy HH:mm') AS [Inscrito em] FROM InscricoesEventos ie JOIN Membros m ON m.id_membro = ie.id_membro
+                                       WHERE ie.id_evento = @id ORDER BY m.nome", idEvento);
+            }
+        }
+
+        private void MostrarParticipantes(string titulo, string sql, int id)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                using (SqlConnection conn = DatabaseHelper.GetConnection())
+                {
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                }
+
+                using (Form dlg = new Form())
+                {
+                    dlg.Text = titulo;
+                    dlg.Size = new System.Drawing.Size(450, 350);
+                    dlg.StartPosition = FormStartPosition.CenterParent;
+
+
+                    if (dt.Rows.Count == 0)
+                    {
+                        Label lbl = new Label
+                        {
+                            Text = "Ainda não há inscrições.",
+                            Dock = DockStyle.Top,
+                            TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
+                            Height = 30
+                        };
+                        dlg.Controls.Add(lbl);
+                    }
+                    else
+                    {
+                        DataGridView grid = new DataGridView
+                        {
+                            Dock = DockStyle.Fill,
+                            ReadOnly = true,
+                            AllowUserToAddRows = false,
+                            AutoGenerateColumns = true,
+                            AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                            DataSource = dt
+                        };
+                        dlg.Controls.Add(grid);
+                    }
+                       
+
+                    
+
+                    
+                    dlg.ShowDialog(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao carregar participantes: " + ex.Message);
+            }
+        }
+
+        private void CarregarEquipamentos()
+        {
+            try
+            {
+                using (SqlConnection conn = DatabaseHelper.GetConnection())
+                {
+                    string sql = @"SELECT nome AS Nome, ISNULL(categoria, '-') AS Categoria, quantidade AS Quantidade, estado AS Estado, ISNULL(observacoes,'-') AS Observações
+                                   FROM Equipamentos ORDER BY categoria, nome";
+
+                    SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    dgvEquipamentos.AutoGenerateColumns = true;
+                    dgvEquipamentos.DataSource = dt;
+                    dgvEquipamentos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dgvEquipamentos.ReadOnly = true;
+                    dgvEquipamentos.AllowUserToAddRows = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao carregar equipamentos: " + ex.Message);
+            }
+        }
 
     }
 }
