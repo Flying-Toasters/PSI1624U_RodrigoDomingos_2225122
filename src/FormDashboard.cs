@@ -50,10 +50,22 @@ namespace WindowsFormsApp1
                                    ISNULL(pa.nome_plano, 'Sem plano') AS [Plano Ativo]
                                    FROM Membros m LEFT JOIN Pagamentos p ON p.id_membro = m.id_membro
                                    AND p.estado = 'Pago' AND p.data_fim >= CAST(GETDATE() AS DATE)
-                                   LEFT JOIN PlanosAssinatura pa ON pa.id_plano = p.id_plano WHERE m.ativo = 1
-                                   ORDER BY m.nome";
+                                   LEFT JOIN PlanosAssinatura pa ON pa.id_plano = p.id_plano WHERE m.ativo = 1";
+
+                    if (Global.GlobalVar == "Membros")
+                    {
+                        sql += " AND m.id_membro = @idMembro";
+                    }
+
+                    sql += " ORDER BY m.nome";
 
                     SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+
+                    if (Global.GlobalVar == "Membros")
+                    {
+                        da.SelectCommand.Parameters.AddWithValue("@idMembro", Session.UserId);
+                    }
+
                     DataTable dt = new DataTable();
                     da.Fill(dt);
 
@@ -269,6 +281,9 @@ namespace WindowsFormsApp1
                     dgvAulas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                     dgvAulas.ReadOnly = true;
                     dgvAulas.AllowUserToAddRows = false;
+
+                    if (dgvAulas.Columns["id_aula"] != null)
+                        dgvAulas.Columns["id_aula"].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -382,7 +397,10 @@ namespace WindowsFormsApp1
         {
             if (e.RowIndex < 0) return;
             int idAula = (int)((DataRowView)dgvAulas.Rows[e.RowIndex].DataBoundItem).Row["id_aula"];
-            if (dgvAulas.Columns[e.ColumnIndex].Name == "RemoverAula")
+
+            string colName = dgvAulas.Columns[e.ColumnIndex].Name;
+
+            if (colName == "RemoverAula")
             {
                 if (MessageBox.Show("Remover esta aula?", "Confirmar", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
 
@@ -406,7 +424,7 @@ namespace WindowsFormsApp1
                 }
             }
 
-            if (dgvAulas.Columns[e.ColumnIndex].Name == "InscreverAula")
+            if (colName == "InscreverAula")
             {
                 try
                 {
@@ -446,6 +464,11 @@ namespace WindowsFormsApp1
                 {
                     MessageBox.Show("Erro ao inscrever: " + ex.Message);
                 }
+            }
+
+            if (colName == "aulaParticipantes")
+            {
+                MostrarParticipantes("Participantes da aula", @"SELECT i.id_inscricao, m.nome + ' ' + m.apelido AS Membro, m.email AS Email, CASE i.presenca WHEN 1 THEN 'Sim' ELSE 'Não' END AS [Presença] FROM INSCRICOES i JOIN Membros m ON m.id_membro = i.id_membro WHERE i.id_aula = @id ORDER BY m.nome", idAula);
             }
         }
 
@@ -684,6 +707,9 @@ namespace WindowsFormsApp1
 
         private void MostrarParticipantes(string titulo, string sql, int id)
         {
+
+            bool comPresenca = titulo.Contains("aula");
+
             try
             {
                 DataTable dt = new DataTable();
@@ -699,9 +725,75 @@ namespace WindowsFormsApp1
                 using (Form dlg = new Form())
                 {
                     dlg.Text = titulo;
-                    dlg.Size = new System.Drawing.Size(450, 350);
+                    dlg.Size = new System.Drawing.Size(660, 380);
                     dlg.StartPosition = FormStartPosition.CenterParent;
 
+
+
+
+                    DataGridView grid = new DataGridView();
+                    grid.Dock = DockStyle.Fill;
+                    grid.AllowUserToAddRows = false;
+                    grid.AutoGenerateColumns = false;
+                    grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    grid.DataSource = dt;
+
+                            if (comPresenca)
+                        grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "id_inscricao", Visible = false, DataPropertyName = "id_inscricao" });
+
+                            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Membro", HeaderText = "Membro", DataPropertyName = "Membro", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells, MinimumWidth = 150 });
+
+                            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Email", HeaderText = "Email", DataPropertyName = "Email", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells, MinimumWidth = 180 });
+
+                    if (comPresenca)
+                    {
+                        grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Presença", HeaderText = "Presença", DataPropertyName = "Presença", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells });
+
+                        DataGridViewButtonColumn btnP = new DataGridViewButtonColumn();
+                        btnP.Name = "TogglePresenca";
+                        btnP.HeaderText = "Marcar Presença";
+                        btnP.Text = "Marcar/Desmarcar";
+                        btnP.UseColumnTextForButtonValue = true;
+                        btnP.Width = 140;
+                        grid.Columns.Add(btnP);
+
+                        grid.CellContentClick += (s, ev) =>
+                        {
+                            if (ev.RowIndex < 0) return;
+                            if (grid.Columns[ev.ColumnIndex].Name != "TogglePresenca") return;
+
+                            int idInscricao = (int)((DataRowView)grid.Rows[ev.RowIndex].DataBoundItem).Row["id_inscricao"];
+
+                            try
+                            {
+                                using (SqlConnection conn = DatabaseHelper.GetConnection())
+                                {
+                                    SqlCommand cmd = new SqlCommand(@"UPDATE Inscricoes SET presenca = CASE presenca WHEN 1 THEN 0 ELSE 1 END WHERE id_inscricao = @id", conn);
+
+                                    cmd.Parameters.AddWithValue("@id", idInscricao);
+                                    cmd.ExecuteNonQuery();
+
+                                    SqlCommand cmdLer = new SqlCommand(@"SELECT presenca FROM Inscricoes WHERE id_inscricao = @id", conn);
+
+                                    cmdLer.Parameters.AddWithValue("@id", idInscricao);
+
+                                    bool nova = Convert.ToBoolean(cmdLer.ExecuteScalar());
+
+                                    ((DataRowView)grid.Rows[ev.RowIndex].DataBoundItem).Row["Presença"] = nova ? "Sim" : "Não";
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Erro ao atualizar presença: " + ex.Message);
+                            }
+                        };
+                    }
+                    else
+                    {
+                        grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Inscrito em", HeaderText = "Inscrito em", DataPropertyName = "Inscrito em", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells });
+                    }
+
+                    grid.DataSource = dt;
 
                     if (dt.Rows.Count == 0)
                     {
@@ -714,25 +806,10 @@ namespace WindowsFormsApp1
                         };
                         dlg.Controls.Add(lbl);
                     }
-                    else
-                    {
-                        DataGridView grid = new DataGridView
-                        {
-                            Dock = DockStyle.Fill,
-                            ReadOnly = true,
-                            AllowUserToAddRows = false,
-                            AutoGenerateColumns = true,
-                            AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                            DataSource = dt
-                        };
-                        dlg.Controls.Add(grid);
-                    }
-                       
 
-                    
+                    dlg.Controls.Add(grid);
+                    dlg.ShowDialog(this);      
 
-                    
-                    dlg.ShowDialog(this);
                 }
             }
             catch (Exception ex)
