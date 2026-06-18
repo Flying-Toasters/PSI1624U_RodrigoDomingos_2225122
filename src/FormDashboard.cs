@@ -239,7 +239,7 @@ namespace WindowsFormsApp1
             {
                 using (SqlConnection conn = DatabaseHelper.GetConnection())
                 {
-                    string sql = @"SELECT nome_plano AS [Nome do Plano], duracao_meses AS [Duração (meses)],
+                    string sql = @"SELECT id_plano, nome_plano AS [Nome do Plano], ISNULL(descricao, '-') AS [Descrição], duracao_meses AS [Duração (meses)],
                                    preco AS [Preço (€)], CASE ativo WHEN 1 THEN 'Ativo' ELSE 'Inativo' END
                                    AS [Estado] FROM PlanosAssinatura ORDER BY duracao_meses";
 
@@ -252,6 +252,8 @@ namespace WindowsFormsApp1
                     dgvPlanos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                     dgvPlanos.ReadOnly = true;
                     dgvPlanos.AllowUserToAddRows = false;
+
+
                 }
             }
             catch (Exception ex)
@@ -484,9 +486,16 @@ namespace WindowsFormsApp1
                                    FORMAT (p.data_fim, 'dd/MM/yyyy') AS [Fim], p.estado AS [Estado]
                                    FROM Pagamentos p JOIN Membros m ON m.id_membro = p.id_membro
                                    JOIN PlanosAssinatura pa ON pa.id_plano = p.id_plano
-                                   ORDER BY p.data_pagamento DESC";
+                                   ";
+
+                    if (Global.GlobalVar == "Membros")
+                        sql += " WHERE p.id_membro = @idMembro";
+                    sql += " ORDER BY p.data_pagamento DESC";
 
                     SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                    if (Global.GlobalVar == "Membros")
+                        da.SelectCommand.Parameters.AddWithValue("@idMembro", Session.UserId);
+
                     DataTable dt = new DataTable();
                     da.Fill(dt);
                     dgvPagamentos.AutoGenerateColumns = true;
@@ -494,6 +503,20 @@ namespace WindowsFormsApp1
                     dgvPagamentos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                     dgvPagamentos.ReadOnly = true;
                     dgvPagamentos.AllowUserToAddRows = false;
+
+                    if (dgvPagamentos.Columns["id_pagamento"] != null)
+                        dgvPagamentos.Columns["id_pagamento"].Visible = false;
+
+                    foreach (DataGridViewRow row in dgvPagamentos.Rows)
+                    {
+                        string estado = row.Cells["Estado"]?.Value?.ToString();
+                        if (estado == "Pendente")
+                            row.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(255, 235, 156);
+                        else if (estado == "Cancelado")
+                            row.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(198, 239, 206);
+                    }
+
+                    
                 }
             }
             catch (Exception ex)
@@ -830,6 +853,9 @@ namespace WindowsFormsApp1
                     SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
+
+                    
+
                     dgvEquipamentos.AutoGenerateColumns = true;
                     dgvEquipamentos.DataSource = dt;
                     dgvEquipamentos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -842,6 +868,88 @@ namespace WindowsFormsApp1
                 MessageBox.Show("Erro ao carregar equipamentos: " + ex.Message);
             }
         }
+
+        private void btnAdicionarEquipamento_Click(object sender, EventArgs e)
+        {
+            AbrirDialogoEquipamento(0, "", "", 1, "Bom", "");
+        }
+
+        private void AbrirDialogoEquipamento(int idEquip, string nome, string categoria, int quantidade, string estado, string observacoes)
+        {
+            bool isEdicao = idEquip > 0;
+
+            using (Form dlg = new Form())
+            {
+                dlg.Text = isEdicao ? "Editar Equipamento" : "Adicionar Equipamento";
+                dlg.Size = new System.Drawing.Size(340, 310);
+                dlg.StartPosition = FormStartPosition.CenterParent;
+                dlg.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dlg.MaximizeBox = false;
+
+                int lx = 10, cx = 120, w = 185, ly = 12, step = 35;
+
+                Label lblNome = new Label { Text = "Nome:", Left = lx, Top = ly, Width = 100 };
+                TextBox txtNome = new TextBox { Left = cx, Top = ly, Width = w, Text = nome };
+                Label lblCat = new Label { Text = "Categoria:", Left = lx, Top = ly + step, Width = 100 };
+                TextBox txtCat = new TextBox { Left = cx, Top = ly + step, Width = w, Text = categoria };
+                Label lblQtd = new Label { Text = "Quantidade:", Left = lx, Top = ly + step * 2, Width = 100 };
+                NumericUpDown nudQtd = new NumericUpDown { Left = cx, Top = ly + step * 2, Width = 80, Minimum = 0, Maximum = 9999, Value = quantidade };
+                Label lblEst = new Label { Text = "Estado:", Left = lx, Top = ly + step * 3, Width = 100 };
+                ComboBox cbEst = new ComboBox { Left = cx, Top = ly + step * 3, Width = w, DropDownStyle = ComboBoxStyle.DropDownList };
+                cbEst.Items.AddRange(new object[] { "Bom", "Degradado", "Avariado" });
+                cbEst.SelectedItem = cbEst.Items.Contains(estado) ? estado : "Bom";
+                Label lblObs = new Label { Text = "Observações:", Left = lx, Top = ly + step * 4, Width = 100 };
+                TextBox txtObs = new TextBox { Left = cx, Top = ly + step * 4, Width = w, Height = 45, Multiline = true, Text = observacoes };
+                Button btnOk = new Button { Text = "Guardar", Left = 120, Top = ly + step * 4 + 55, Width = 85 };
+
+                btnOk.Click += (s, ev) =>
+                {
+                    if (string.IsNullOrWhiteSpace(txtNome.Text))
+                    {
+                        MessageBox.Show("O nome é obrigatório.");
+                        return;
+                    }
+
+                    try
+                    {
+                        using (SqlConnection conn = DatabaseHelper.GetConnection())
+                        {
+                            SqlCommand cmd;
+                            if (isEdicao)
+                            {
+                                cmd = new SqlCommand(@"UPDATE Equipamentos SET nome=@nome, categoria=@cat, quantidade=@qtd, estado=@est, observacoes=@obs WHERE id_equipamento=@id", conn);
+
+                                cmd.Parameters.AddWithValue("@id", idEquip);
+                            }
+                            else
+                            {
+                                cmd = new SqlCommand(@"INSERT INTO Equipamentos (nome, categoria, quantidade, estado, observacoes) VALUES(@nome, @cat, @qtd, @est, @obs)", conn);
+
+                            }
+
+                            cmd.Parameters.AddWithValue("@nome", txtNome.Text.Trim());
+                            cmd.Parameters.AddWithValue("@cat", string.IsNullOrWhiteSpace(txtCat.Text) ? (object)DBNull.Value : txtCat.Text.Trim());
+                            cmd.Parameters.AddWithValue("@qtd", (int)nudQtd.Value);
+                            cmd.Parameters.AddWithValue("@est", cbEst.SelectedItem.ToString());
+                            cmd.Parameters.AddWithValue("@obs", string.IsNullOrWhiteSpace(txtObs.Text) ? (object)DBNull.Value : txtObs.Text.Trim());
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        MessageBox.Show(isEdicao ? "Equipamento atualizado" : "Equipamento adicionado.");
+                        dlg.Close();
+                        CarregarEquipamentos();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erro ao guardar: " + ex.Message);
+                    }
+                };
+
+                dlg.Controls.AddRange(new Control[] { lblNome, txtNome, lblCat, txtCat, lblQtd, nudQtd, lblEst, cbEst, lblObs, txtObs, btnOk });
+                dlg.ShowDialog();
+            }
+        }
+
 
     }
 }
