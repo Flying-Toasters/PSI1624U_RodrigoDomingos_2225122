@@ -36,11 +36,12 @@ namespace WindowsFormsApp1
                         cmd.Parameters.AddWithValue("@email", email);
                         cmd.Parameters.AddWithValue("@password", passwordHash);
 
-                        int count = (int)cmd.ExecuteScalar();
+                        object resultado = cmd.ExecuteScalar();
 
-                        if (count > 0)
+                        if (resultado != null)
                         {
                             MessageBox.Show("Acesso autorizado.");
+                            Session.UserId = (int)resultado;
                             Global.GlobalVar = "Administradores";
                             new FormDashboard().Show();
                             Hide();

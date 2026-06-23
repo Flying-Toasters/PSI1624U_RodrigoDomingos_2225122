@@ -34,13 +34,6 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnAtribuirPlano = new System.Windows.Forms.Button();
             this.dgvMembros = new System.Windows.Forms.DataGridView();
-            this.ColunaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColunaEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColunaTelefone = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColunaPlanoAtivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColunaEditar = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.ColunaRemover = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.idmembroDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sthenosDBDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.sthenosDBDataSet = new WindowsFormsApp1.SthenosDBDataSet();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -48,9 +41,6 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.btnAdicionarAula = new System.Windows.Forms.Button();
             this.dgvAulas = new System.Windows.Forms.DataGridView();
-            this.RemoverAula = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.InscreverAula = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.aulaParticipantes = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.dgvPagamentos = new System.Windows.Forms.DataGridView();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -60,10 +50,22 @@
             this.InscreverEvento = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Participantes = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.btnAdicionarEquipamento = new System.Windows.Forms.Button();
             this.dgvEquipamentos = new System.Windows.Forms.DataGridView();
             this.planosAssinaturaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.planosAssinaturaTableAdapter = new WindowsFormsApp1.SthenosDBDataSetTableAdapters.PlanosAssinaturaTableAdapter();
-            this.btnAdicionarEquipamento = new System.Windows.Forms.Button();
+            this.ColunaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColunaEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColunaTelefone = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColunaPlanoAtivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idmembroDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Historico = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ColunaEditar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ColunaRemover = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.RemoverAula = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.InscreverAula = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.aulaParticipantes = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.FeedbackAula = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMembros)).BeginInit();
@@ -113,7 +115,7 @@
             // 
             // btnAtribuirPlano
             // 
-            this.btnAtribuirPlano.Location = new System.Drawing.Point(3, 182);
+            this.btnAtribuirPlano.Location = new System.Drawing.Point(7, 163);
             this.btnAtribuirPlano.Name = "btnAtribuirPlano";
             this.btnAtribuirPlano.Size = new System.Drawing.Size(100, 23);
             this.btnAtribuirPlano.TabIndex = 3;
@@ -131,9 +133,10 @@
             this.ColunaEmail,
             this.ColunaTelefone,
             this.ColunaPlanoAtivo,
+            this.idmembroDataGridViewTextBoxColumn,
+            this.Historico,
             this.ColunaEditar,
-            this.ColunaRemover,
-            this.idmembroDataGridViewTextBoxColumn});
+            this.ColunaRemover});
             this.dgvMembros.DataMember = "Membros";
             this.dgvMembros.DataSource = this.sthenosDBDataSetBindingSource;
             this.dgvMembros.Location = new System.Drawing.Point(7, 7);
@@ -142,55 +145,6 @@
             this.dgvMembros.Size = new System.Drawing.Size(873, 150);
             this.dgvMembros.TabIndex = 1;
             this.dgvMembros.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMembros_CellContentClick);
-            // 
-            // ColunaNome
-            // 
-            this.ColunaNome.HeaderText = "Nome";
-            this.ColunaNome.Name = "ColunaNome";
-            this.ColunaNome.ReadOnly = true;
-            // 
-            // ColunaEmail
-            // 
-            this.ColunaEmail.HeaderText = "Email";
-            this.ColunaEmail.Name = "ColunaEmail";
-            this.ColunaEmail.ReadOnly = true;
-            // 
-            // ColunaTelefone
-            // 
-            this.ColunaTelefone.HeaderText = "Telefone";
-            this.ColunaTelefone.Name = "ColunaTelefone";
-            this.ColunaTelefone.ReadOnly = true;
-            // 
-            // ColunaPlanoAtivo
-            // 
-            this.ColunaPlanoAtivo.HeaderText = "Plano Ativo";
-            this.ColunaPlanoAtivo.Name = "ColunaPlanoAtivo";
-            this.ColunaPlanoAtivo.ReadOnly = true;
-            // 
-            // ColunaEditar
-            // 
-            this.ColunaEditar.HeaderText = "Editar";
-            this.ColunaEditar.Name = "ColunaEditar";
-            this.ColunaEditar.ReadOnly = true;
-            this.ColunaEditar.Text = "Editar";
-            this.ColunaEditar.UseColumnTextForButtonValue = true;
-            this.ColunaEditar.Visible = false;
-            // 
-            // ColunaRemover
-            // 
-            this.ColunaRemover.HeaderText = "Remover";
-            this.ColunaRemover.Name = "ColunaRemover";
-            this.ColunaRemover.ReadOnly = true;
-            this.ColunaRemover.Text = "Remover";
-            this.ColunaRemover.UseColumnTextForButtonValue = true;
-            this.ColunaRemover.Visible = false;
-            // 
-            // idmembroDataGridViewTextBoxColumn
-            // 
-            this.idmembroDataGridViewTextBoxColumn.DataPropertyName = "id_membro";
-            this.idmembroDataGridViewTextBoxColumn.HeaderText = "id_membro";
-            this.idmembroDataGridViewTextBoxColumn.Name = "idmembroDataGridViewTextBoxColumn";
-            this.idmembroDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // sthenosDBDataSetBindingSource
             // 
@@ -223,7 +177,6 @@
             this.dgvPlanos.ReadOnly = true;
             this.dgvPlanos.Size = new System.Drawing.Size(874, 150);
             this.dgvPlanos.TabIndex = 0;
-
             // 
             // tabPage3
             // 
@@ -254,7 +207,8 @@
             this.dgvAulas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.RemoverAula,
             this.InscreverAula,
-            this.aulaParticipantes});
+            this.aulaParticipantes,
+            this.FeedbackAula});
             this.dgvAulas.DataSource = this.sthenosDBDataSetBindingSource;
             this.dgvAulas.Location = new System.Drawing.Point(6, 6);
             this.dgvAulas.Name = "dgvAulas";
@@ -262,34 +216,6 @@
             this.dgvAulas.Size = new System.Drawing.Size(874, 150);
             this.dgvAulas.TabIndex = 0;
             this.dgvAulas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAulas_CellContentClick);
-            // 
-            // RemoverAula
-            // 
-            this.RemoverAula.HeaderText = "";
-            this.RemoverAula.Name = "RemoverAula";
-            this.RemoverAula.ReadOnly = true;
-            this.RemoverAula.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.RemoverAula.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.RemoverAula.Text = "Remover Aula";
-            this.RemoverAula.UseColumnTextForButtonValue = true;
-            // 
-            // InscreverAula
-            // 
-            this.InscreverAula.HeaderText = "";
-            this.InscreverAula.Name = "InscreverAula";
-            this.InscreverAula.ReadOnly = true;
-            this.InscreverAula.Text = "Inscrever Aula";
-            this.InscreverAula.UseColumnTextForButtonValue = true;
-            // 
-            // aulaParticipantes
-            // 
-            this.aulaParticipantes.HeaderText = "";
-            this.aulaParticipantes.Name = "aulaParticipantes";
-            this.aulaParticipantes.ReadOnly = true;
-            this.aulaParticipantes.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.aulaParticipantes.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.aulaParticipantes.Text = "Participantes";
-            this.aulaParticipantes.UseColumnTextForButtonValue = true;
             // 
             // tabPage4
             // 
@@ -389,6 +315,16 @@
             this.tabPage6.Text = "Equipamentos";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
+            // btnAdicionarEquipamento
+            // 
+            this.btnAdicionarEquipamento.Location = new System.Drawing.Point(7, 163);
+            this.btnAdicionarEquipamento.Name = "btnAdicionarEquipamento";
+            this.btnAdicionarEquipamento.Size = new System.Drawing.Size(125, 23);
+            this.btnAdicionarEquipamento.TabIndex = 1;
+            this.btnAdicionarEquipamento.Text = "Adicionar Equipamento";
+            this.btnAdicionarEquipamento.UseVisualStyleBackColor = true;
+            this.btnAdicionarEquipamento.Click += new System.EventHandler(this.btnAdicionarEquipamento_Click);
+            // 
             // dgvEquipamentos
             // 
             this.dgvEquipamentos.AutoGenerateColumns = false;
@@ -408,15 +344,98 @@
             // 
             this.planosAssinaturaTableAdapter.ClearBeforeFill = true;
             // 
-            // btnAdicionarEquipamento
+            // ColunaNome
             // 
-            this.btnAdicionarEquipamento.Location = new System.Drawing.Point(7, 163);
-            this.btnAdicionarEquipamento.Name = "btnAdicionarEquipamento";
-            this.btnAdicionarEquipamento.Size = new System.Drawing.Size(125, 23);
-            this.btnAdicionarEquipamento.TabIndex = 1;
-            this.btnAdicionarEquipamento.Text = "Adicionar Equipamento";
-            this.btnAdicionarEquipamento.UseVisualStyleBackColor = true;
-            this.btnAdicionarEquipamento.Click += new System.EventHandler(this.btnAdicionarEquipamento_Click);
+            this.ColunaNome.HeaderText = "Nome";
+            this.ColunaNome.Name = "ColunaNome";
+            this.ColunaNome.ReadOnly = true;
+            // 
+            // ColunaEmail
+            // 
+            this.ColunaEmail.HeaderText = "Email";
+            this.ColunaEmail.Name = "ColunaEmail";
+            this.ColunaEmail.ReadOnly = true;
+            // 
+            // ColunaTelefone
+            // 
+            this.ColunaTelefone.HeaderText = "Telefone";
+            this.ColunaTelefone.Name = "ColunaTelefone";
+            this.ColunaTelefone.ReadOnly = true;
+            // 
+            // ColunaPlanoAtivo
+            // 
+            this.ColunaPlanoAtivo.HeaderText = "Plano Ativo";
+            this.ColunaPlanoAtivo.Name = "ColunaPlanoAtivo";
+            this.ColunaPlanoAtivo.ReadOnly = true;
+            // 
+            // idmembroDataGridViewTextBoxColumn
+            // 
+            this.idmembroDataGridViewTextBoxColumn.DataPropertyName = "id_membro";
+            this.idmembroDataGridViewTextBoxColumn.HeaderText = "id_membro";
+            this.idmembroDataGridViewTextBoxColumn.Name = "idmembroDataGridViewTextBoxColumn";
+            this.idmembroDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // Historico
+            // 
+            this.Historico.HeaderText = "Histórico";
+            this.Historico.Name = "Historico";
+            this.Historico.ReadOnly = true;
+            this.Historico.Text = "Histórico";
+            this.Historico.UseColumnTextForButtonValue = true;
+            // 
+            // ColunaEditar
+            // 
+            this.ColunaEditar.HeaderText = "Editar";
+            this.ColunaEditar.Name = "ColunaEditar";
+            this.ColunaEditar.ReadOnly = true;
+            this.ColunaEditar.Text = "Editar";
+            this.ColunaEditar.UseColumnTextForButtonValue = true;
+            this.ColunaEditar.Visible = false;
+            // 
+            // ColunaRemover
+            // 
+            this.ColunaRemover.HeaderText = "Remover";
+            this.ColunaRemover.Name = "ColunaRemover";
+            this.ColunaRemover.ReadOnly = true;
+            this.ColunaRemover.Text = "Remover";
+            this.ColunaRemover.UseColumnTextForButtonValue = true;
+            this.ColunaRemover.Visible = false;
+            // 
+            // RemoverAula
+            // 
+            this.RemoverAula.HeaderText = "";
+            this.RemoverAula.Name = "RemoverAula";
+            this.RemoverAula.ReadOnly = true;
+            this.RemoverAula.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.RemoverAula.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.RemoverAula.Text = "Remover Aula";
+            this.RemoverAula.UseColumnTextForButtonValue = true;
+            // 
+            // InscreverAula
+            // 
+            this.InscreverAula.HeaderText = "";
+            this.InscreverAula.Name = "InscreverAula";
+            this.InscreverAula.ReadOnly = true;
+            this.InscreverAula.Text = "Inscrever Aula";
+            this.InscreverAula.UseColumnTextForButtonValue = true;
+            // 
+            // aulaParticipantes
+            // 
+            this.aulaParticipantes.HeaderText = "";
+            this.aulaParticipantes.Name = "aulaParticipantes";
+            this.aulaParticipantes.ReadOnly = true;
+            this.aulaParticipantes.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.aulaParticipantes.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.aulaParticipantes.Text = "Participantes";
+            this.aulaParticipantes.UseColumnTextForButtonValue = true;
+            // 
+            // FeedbackAula
+            // 
+            this.FeedbackAula.HeaderText = "";
+            this.FeedbackAula.Name = "FeedbackAula";
+            this.FeedbackAula.ReadOnly = true;
+            this.FeedbackAula.Text = "Dar Feedback";
+            this.FeedbackAula.UseColumnTextForButtonValue = true;
             // 
             // FormDashboard
             // 
@@ -466,13 +485,6 @@
         private System.Windows.Forms.DataGridView dgvPagamentos;
         private System.Windows.Forms.DataGridView dgvEventos;
         private System.Windows.Forms.DataGridView dgvEquipamentos;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColunaNome;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColunaEmail;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColunaTelefone;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColunaPlanoAtivo;
-        private System.Windows.Forms.DataGridViewButtonColumn ColunaEditar;
-        private System.Windows.Forms.DataGridViewButtonColumn ColunaRemover;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idmembroDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource planosAssinaturaBindingSource;
         private SthenosDBDataSetTableAdapters.PlanosAssinaturaTableAdapter planosAssinaturaTableAdapter;
         private System.Windows.Forms.Button btnAdicionarAula;
@@ -480,9 +492,18 @@
         private System.Windows.Forms.DataGridViewButtonColumn RemoverEvento;
         private System.Windows.Forms.DataGridViewButtonColumn InscreverEvento;
         private System.Windows.Forms.DataGridViewButtonColumn Participantes;
+        private System.Windows.Forms.Button btnAdicionarEquipamento;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColunaNome;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColunaEmail;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColunaTelefone;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColunaPlanoAtivo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idmembroDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn Historico;
+        private System.Windows.Forms.DataGridViewButtonColumn ColunaEditar;
+        private System.Windows.Forms.DataGridViewButtonColumn ColunaRemover;
         private System.Windows.Forms.DataGridViewButtonColumn RemoverAula;
         private System.Windows.Forms.DataGridViewButtonColumn InscreverAula;
         private System.Windows.Forms.DataGridViewButtonColumn aulaParticipantes;
-        private System.Windows.Forms.Button btnAdicionarEquipamento;
+        private System.Windows.Forms.DataGridViewButtonColumn FeedbackAula;
     }
 }
