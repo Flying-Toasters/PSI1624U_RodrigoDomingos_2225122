@@ -105,7 +105,6 @@ namespace WindowsFormsApp1
                     smtp.Send(message);
                 }
                 
-                //Caso um utilizador malicioso insira um email que não está na BD, esta mensagem é enviada de qualquer maneira para a proteção de privacidade.
                 MessageBox.Show("Código enviado para " + email + ".");
             }
             catch (Exception ex)

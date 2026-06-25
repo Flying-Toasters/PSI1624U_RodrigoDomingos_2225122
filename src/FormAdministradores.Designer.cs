@@ -138,6 +138,7 @@
             this.Controls.Add(this.groupBox1);
             this.DoubleBuffered = true;
             this.Name = "FormAdministradores";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormAdministradores";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

@@ -86,6 +86,9 @@ namespace WindowsFormsApp1
 
         private void FormMembrosLogIn_Load(object sender, EventArgs e)
         {
+
+                 
+
             if (Properties.Settings.Default.userEmail != string.Empty)
             {
                 textBox1.Text = Properties.Settings.Default.userEmail;

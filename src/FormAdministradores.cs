@@ -28,7 +28,7 @@ namespace WindowsFormsApp1
             {
                 using (SqlConnection conn = DatabaseHelper.GetConnection())
                 {
-                    string query = @"SELECT COUNT(*) FROM Administradores 
+                    string query = @"SELECT id_admin FROM Administradores 
                                      WHERE email=@email AND palavra_passe=@password";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))

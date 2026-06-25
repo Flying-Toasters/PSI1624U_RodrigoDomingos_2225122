@@ -26,12 +26,18 @@ namespace WindowsFormsApp1
             this.planosAssinaturaTableAdapter.Fill(this.sthenosDBDataSet.PlanosAssinatura);
             bool isAdmin = Global.GlobalVar == "Administradores";
             bool isInstrutor = Global.GlobalVar == "Instrutores";
+            bool isMembro = Global.GlobalVar == "Membros";
             btnAtribuirPlano.Visible = isAdmin;
             ColunaEditar.Visible = isAdmin;
             ColunaRemover.Visible = isAdmin;
             btnAdicionarAula.Visible = isAdmin;
             RemoverAula.Visible = isAdmin;
-            FeedbackAula.Visible = isInstrutor;
+            FeedbackAula.Visible = isInstrutor && isAdmin;
+            btnAdicionarEquipamento.Visible = isAdmin;
+            btnAdicionarEvento.Visible = isAdmin;
+            RemoverEvento.Visible = isAdmin;
+            if (isMembro)
+                tabControl1.TabPages.Remove(tabPage7);
 
             CarregarMembros();
             CarregarPlanos();
@@ -47,7 +53,7 @@ namespace WindowsFormsApp1
             {
                 using (SqlConnection conn = DatabaseHelper.GetConnection())
                 {
-                    string sql = @"SELECT m.id_membro, m.nome + '' + m.apelido AS Nome, m.email AS Email, ISNULL(m.telefone, '-') AS Telefone,
+                    string sql = @"SELECT m.id_membro, m.nome + ' ' + m.apelido AS Nome, m.email AS Email, ISNULL(m.telefone, '-') AS Telefone,
                                    ISNULL(pa.nome_plano, 'Sem plano') AS [Plano Ativo]
                                    FROM Membros m LEFT JOIN Pagamentos p ON p.id_membro = m.id_membro
                                    AND p.estado = 'Pago' AND p.data_fim >= CAST(GETDATE() AS DATE)
@@ -73,6 +79,8 @@ namespace WindowsFormsApp1
 
                     dgvMembros.AutoGenerateColumns = false;
                     dgvMembros.DataSource = dt;
+                    dgvMembros.ReadOnly = true;
+                    dgvMembros.AllowUserToAddRows = false;
 
                     ColunaNome.DataPropertyName = "Nome";
                     ColunaEmail.DataPropertyName = "Email";
@@ -91,63 +99,97 @@ namespace WindowsFormsApp1
 
         private void btnAtribuirPlano_Click(object sender, EventArgs e)
         {
-            if (dgvMembros.CurrentRow == null)
-            {
-                return;
-            }
-
-            int idMembro = (int)
-                ((DataRowView)dgvMembros.CurrentRow.DataBoundItem)
-                .Row["id_membro"];
+            
             using (Form dlg = new Form())
             {
                 dlg.Text = "Atribuir Plano";
-                dlg.Size = new System.Drawing.Size(320, 200);
+                dlg.Size = new System.Drawing.Size(340, 240);
                 dlg.StartPosition = FormStartPosition.CenterParent;
                 dlg.FormBorderStyle = FormBorderStyle.FixedDialog;
 
-                Label lbl = new Label { Text = "Plano:", Left = 10, Top = 15, Width = 60 };
+                Label lblMembro = new Label { Text = "Membro:", Left = 10, Top = 12, Width = 75 };
+                ComboBox cbxMembro = new ComboBox
+                {
+                    Left = 90,
+                    Top = 12,
+                    Width = 215,
+                    DropDownStyle = ComboBoxStyle.DropDownList
+                };
+
+
+                Label lbl = new Label { Text = "Plano:", Left = 10, Top = 50, Width = 75 };
                 ComboBox cbx = new ComboBox
                 {
-                    Left = 75,
-                    Top = 12,
-                    Width = 200,
+                    Left = 90,
+                    Top = 50,
+                    Width = 215,
                     DropDownStyle = ComboBoxStyle.DropDownList
                 };
 
                 Label lblData = new Label
                 {
-                    Text = "Início:", Left = 10, Top = 50, Width = 60
+                    Text = "Início:", Left = 10, Top = 100, Width = 75
                 };
 
-                DateTimePicker dtp = new DateTimePicker { Left = 75, Top = 47, Width = 200, Value = DateTime.Today };
+                DateTimePicker dtp = new DateTimePicker { Left = 90, Top = 100, Width = 215, Value = DateTime.Today };
 
-                Button btnOk = new Button { Text = "Guardar", Left = 110, Top = 110, Width = 80 };
+                Button btnOk = new Button { Text = "Guardar", Left = 120, Top = 160, Width = 85 };
 
                 try
                 {
                     using (SqlConnection conn = DatabaseHelper.GetConnection())
                     {
-                        string sql = "SELECT id_plano, nome_plano + ' (' + CAST(preco AS NVARCHAR) + '€)' AS label FROM PlanosAssinatura WHERE ativo = 1";
-                        SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                        string sqlM = "SELECT m.id_membro, m.nome + ' ' + m.apelido AS label FROM Membros m WHERE m.ativo = 1 AND NOT EXISTS (SELECT 1 FROM Pagamentos p WHERE p.id_membro = m.id_membro AND p.estado = 'Pago' AND p.data_fim >= CAST(GETDATE() AS DATE)) ORDER BY m.nome";
+                        SqlDataAdapter da = new SqlDataAdapter(sqlM, conn);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        cbxMembro.DisplayMember = "label";
+                        cbxMembro.ValueMember = "id_membro";
+                        cbxMembro.DataSource = dt;
+
+                        if (dgvMembros.CurrentRow != null)
+                        {
+                            int idSel = (int)((DataRowView)dgvMembros.CurrentRow.DataBoundItem).Row["id_membro"];
+                            cbxMembro.SelectedValue = idSel;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao atribuir plano: " + ex.Message);
+                    return;
+                }
+
+                try
+                {
+                    using (SqlConnection conn = DatabaseHelper.GetConnection())
+                    {
+                        string sqlP = "SELECT id_plano, nome_plano + ' (' + CAST(preco AS NVARCHAR) + '€)' AS label FROM PlanosAssinatura WHERE ativo = 1";
+                        SqlDataAdapter da = new SqlDataAdapter(sqlP, conn);
                         DataTable dt = new DataTable();
                         da.Fill(dt);
                         cbx.DisplayMember = "label";
                         cbx.ValueMember = "id_plano";
                         cbx.DataSource = dt;
                     }
+                        
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Erro: " + ex.Message);
+                    MessageBox.Show("Erro ao atribuir plano: " + ex.Message);
                     return;
                 }
 
                 btnOk.Click += (s, ev) =>
                 {
-                    if (cbx.SelectedValue == null)
+                    if (cbxMembro.SelectedValue == null || cbx.SelectedValue == null)
+                    {
+                        MessageBox.Show("Selecione o membro para atribuir o plano.");
                         return;
+                    }
 
+
+                    int idMembro = (int)cbxMembro.SelectedValue;
                     int idPlano = (int)cbx.SelectedValue;
                     DateTime inicio = dtp.Value.Date;
 
@@ -172,11 +214,11 @@ namespace WindowsFormsApp1
 
                             DateTime fim = inicio.AddMonths(duracao).AddDays(-1);
 
-                            string sqllns = @"INSERT INTO Pagamentos(id_membro, id_plano, valor, data_inicio, data_fim, estado)
+                            string sqlIns = @"INSERT INTO Pagamentos(id_membro, id_plano, valor, data_inicio, data_fim, estado)
                                               VALUES (@m, @p, @v, @di, @df, 'Pago')";
 
 
-                            SqlCommand cmd = new SqlCommand(sqllns, conn);
+                            SqlCommand cmd = new SqlCommand(sqlIns, conn);
 
                             cmd.Parameters.AddWithValue("@m", idMembro);
                             cmd.Parameters.AddWithValue("@p", idPlano);
@@ -197,7 +239,7 @@ namespace WindowsFormsApp1
                 };
 
 
-                dlg.Controls.AddRange(new Control[] { lbl, cbx, lblData, dtp, btnOk });
+                dlg.Controls.AddRange(new Control[] { lblMembro, cbxMembro, lbl, cbx, lblData, dtp, btnOk });
                 dlg.ShowDialog(this);
             }
         }
@@ -218,7 +260,7 @@ namespace WindowsFormsApp1
                     {
                         using (SqlConnection conn = DatabaseHelper.GetConnection())
                         {
-                            string sql = "UPDATE Membros SET ativo=0 WHERE id_membro = @id";
+                            string sql = "DELETE Membros WHERE id_membro = @id";
                             SqlCommand cmd = new SqlCommand(sql, conn);
 
                             cmd.Parameters.AddWithValue("@id", idMembro);
@@ -253,7 +295,7 @@ namespace WindowsFormsApp1
                     using (Form dlg = new Form())
                     {
                         dlg.Text = "Histórico de Feedback - " + nomeMembro;
-                        dlg.Size = new System.Drawing.Size(700, 400);
+                        dlg.Size = new System.Drawing.Size(1500, 400);
                         dlg.StartPosition = FormStartPosition.CenterParent;
                         DataGridView grid = new DataGridView
                         {
@@ -557,6 +599,84 @@ namespace WindowsFormsApp1
             if (colName == "aulaParticipantes")
             {
                 MostrarParticipantes("Participantes da aula", @"SELECT i.id_inscricao, m.nome + ' ' + m.apelido AS Membro, m.email AS Email, CASE i.presenca WHEN 1 THEN 'Sim' ELSE 'Não' END AS [Presença] FROM INSCRICOES i JOIN Membros m ON m.id_membro = i.id_membro WHERE i.id_aula = @id ORDER BY m.nome", idAula);
+            }
+        }
+
+        private void AbrirDialogoFeedback(int idAula)
+        {
+            DataTable membros = new DataTable();
+
+            try
+            {
+                using (SqlConnection conn = DatabaseHelper.GetConnection())
+                {
+                    string sql = @"SELECT m.id_membro, m.nome + ' ' + m.apelido AS label FROM Inscricoes i JOIN Membros m ON m.id_membro = i.id_membro WHERE i.id_aula = @id ORDER BY m.nome";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@id", idAula);
+                    new SqlDataAdapter(cmd).Fill(membros);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao carregar membros: " + ex.Message);
+                return;
+            }
+
+            if (membros.Rows.Count == 0)
+            {
+                MessageBox.Show("Não há membros inscritos nesta aula.");
+                return;
+            }
+
+            using (Form dlg = new Form())
+            {
+                dlg.Text = "Dar Feedback";
+                dlg.Size = new System.Drawing.Size(380, 300);
+                dlg.StartPosition = FormStartPosition.CenterParent;
+                dlg.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dlg.MaximizeBox = false;
+
+                int lx = 10, cx = 100, w = 245, ly = 12, step = 35;
+
+                Label lblMembro = new Label { Text = "Membro:", Left = lx, Top = ly, Width = 85 };
+                ComboBox cbMembro = new ComboBox { Left = cx, Top = ly, Width = w, DropDownStyle = ComboBoxStyle.DropDownList, DisplayMember = "label", ValueMember = "id_membro", DataSource = membros };
+                Label lblTitulo = new Label { Text = "Título:", Left = lx, Top = ly + step, Width = 85 };
+                TextBox txtTitulo = new TextBox { Left = cx, Top = ly + step, Width = w, };
+                Label lblMsg = new Label { Text = "Mensagem:", Left = lx, Top = ly + step * 2, Width = 85 };
+                TextBox txtMsg = new TextBox { Left = cx, Top = ly + step * 2, Width = w, Height = 80, Multiline = true, ScrollBars = ScrollBars.Vertical };
+                Button btnOk = new Button { Text = "Enviar", Left = 140, Top = ly + step * 2 + 90, Width = 80 };
+
+                btnOk.Click += (s, ev) =>
+                {
+                    if (cbMembro.SelectedValue == null || string.IsNullOrWhiteSpace(txtTitulo.Text) || string.IsNullOrWhiteSpace(txtMsg.Text))
+                    {
+                        MessageBox.Show("Preenche todos os campos.");
+                        return;
+                    }
+
+                    try
+                    {
+                        using (SqlConnection conn = DatabaseHelper.GetConnection())
+                        {
+                            string sql = @"INSERT INTO FeedbackMembros (id_membro, id_instrutor, id_aula, titulo, mensagem) VALUES (@m, @i, @a, @t, @msg)";
+                            SqlCommand cmd = new SqlCommand(sql, conn);
+                            cmd.Parameters.AddWithValue("@m", (int)cbMembro.SelectedValue);
+                            cmd.Parameters.AddWithValue("@i", Session.UserId);
+                            cmd.Parameters.AddWithValue("@a", idAula);
+                            cmd.Parameters.AddWithValue("@t", txtTitulo.Text.Trim());
+                            cmd.Parameters.AddWithValue("@msg", txtMsg.Text.Trim());
+                            cmd.ExecuteNonQuery();
+                        }
+                        MessageBox.Show("Feedback enviado com sucesso.");
+                        dlg.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erro ao enviar feedback: " + ex.Message);
+                    }
+                };
+                dlg.Controls.AddRange(new Control[] { lblMembro, cbMembro, lblTitulo, txtTitulo, lblMsg, txtMsg, btnOk });
+                dlg.ShowDialog(this);
             }
         }
 
@@ -1043,84 +1163,51 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void AbrirDialogoFeedback(int idAula)
+        private void btnGerarRelatorio_Click(object sender, EventArgs e)
         {
-            DataTable membros = new DataTable();
+            if (cbRelatorio.SelectedIndex < 0)
+                return;
 
             try
             {
                 using (SqlConnection conn = DatabaseHelper.GetConnection())
                 {
-                    string sql = @"SELECT m.id_membro, m.nome + ' ' + m.apelido AS label FROM Inscricoes i JOIN Membros m ON m.id_membro = i.id_membro WHERE i.id_aula = @id ORDER BY m.nome";
-                    SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@id", idAula);
-                    new SqlDataAdapter(cmd).Fill(membros);
+                    string sql = "";
+                    string titulo = cbRelatorio.SelectedItem.ToString();
+
+                    switch (cbRelatorio.SelectedIndex)
+                    {
+                        case 0:
+
+                            sql = @"SELECT m.nome + ' ' + m.apelido AS Membro, m.email AS Email, pa.nome_plano AS Plano, p.valor AS [Valor (€)], FORMAT(p.data_fim, 'dd/MM/yyyy') AS [Expirou em], p.estado AS Estado FROM Pagamentos p JOIN Membros m ON m.id_membro = p.id_membro JOIN PlanosAssinatura pa ON pa.id_plano = p.id_plano WHERE p.estado = 'Pendente' OR (p.estado = 'Pago' AND p.data_fim < CAST(GETDATE() AS DATE)) ORDER BY p.data_fim";
+                            break;
+
+                        case 1:
+                            sql = @"SELECT m.nome + m.apelido AS Membro, COUNT(i.id_inscricao) AS [Total Aulas], SUM(CAST(i.presenca AS INT)) AS [Presenças], COUNT(i.id_inscricao) - SUM(CAST(i.presenca AS INT)) AS Faltas, CASE WHEN COUNT(i.id_inscricao) = 0 THEN '0%' ELSE CAST(ROUND(100.0*SUM(CAST(i.presenca AS INT)) / COUNT(i.id_inscricao), 0) AS INT) END AS [% Presença] FROM Inscricoes i JOIN Membros m ON m.id_membro = i.id_membro GROUP BY m.id_membro, m.nome, m.apelido ORDER BY [Presenças] DESC";
+                            break;
+
+                        case 2:
+                            sql = @"SELECT e.nome_evento AS Evento, ISNULL(e.tipo, '-') AS Tipo, ISNULL(e.local, '-') AS Local, FORMAT(e.data_inicio, 'dd/MM/yyyy HH:mm') AS [Início], FORMAT(e.data_fim, 'dd/MM/yyyy HH:mm') AS Fim, COUNT(ie.id_inscricao_ev) AS Inscritos FROM Eventos e LEFT JOIN InscricoesEventos ie ON ie.id_evento = e.id_evento WHERE e.data_fim < GETDATE() GROUP BY e.id_evento, e.nome_evento, e.tipo, e.local, e.data_inicio, e.data_fim ORDER BY e.data_inicio DESC";
+                            break;
+                    }
+
+                    SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    dgvRelatorio.AutoGenerateColumns = true;
+                    dgvRelatorio.DataSource = dt;
+                    dgvRelatorio.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dgvRelatorio.ReadOnly = true;
+                    dgvRelatorio.AllowUserToAddRows = false;
+
+                    lblTotalRelatorio.Text = $"{titulo} - {dt.Rows.Count} resultado(s)";
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao carregar membros: " + ex.Message);
-                return;
-            }
-
-            if (membros.Rows.Count == 0 )
-            {
-                MessageBox.Show("Não há membros inscritos nesta aula.");
-                return;
-            }
-
-            using (Form dlg = new Form())
-            {
-                dlg.Text = "Dar Feedback";
-                dlg.Size = new System.Drawing.Size(380, 300);
-                dlg.StartPosition = FormStartPosition.CenterParent;
-                dlg.FormBorderStyle = FormBorderStyle.FixedDialog;
-                dlg.MaximizeBox = false;
-
-                int lx = 10, cx = 100, w = 245, ly = 12, step = 35;
-
-                Label lblMembro = new Label { Text = "Membro:", Left = lx, Top = ly, Width = 85 };
-                ComboBox cbMembro = new ComboBox { Left = cx, Top = ly, Width = w, DropDownStyle = ComboBoxStyle.DropDownList, DisplayMember = "label", ValueMember = "id_membro", DataSource = membros };
-                Label lblTitulo = new Label { Text = "Título:", Left = lx, Top = ly + step, Width = 85 };
-                TextBox txtTitulo = new TextBox { Left = cx, Top = ly + step, Width = w, };
-                Label lblMsg = new Label { Text = "Mensagem:", Left = lx, Top = ly + step * 2, Width = 85 };
-                TextBox txtMsg = new TextBox { Left = cx, Top = ly + step * 2, Width = w, Height = 80, Multiline = true, ScrollBars = ScrollBars.Vertical };
-                Button btnOk = new Button { Text = "Enviar", Left = 140, Top = ly + step * 2 + 90, Width = 80 };
-
-                btnOk.Click += (s, ev) =>
-                {
-                    if (cbMembro.SelectedValue == null || string.IsNullOrWhiteSpace(txtTitulo.Text) || string.IsNullOrWhiteSpace(txtMsg.Text))
-                    {
-                        MessageBox.Show("Preenche todos os campos.");
-                        return;
-                    }
-
-                    try
-                    {
-                        using (SqlConnection conn = DatabaseHelper.GetConnection())
-                        {
-                            string sql = @"INSERT INTO FeedbackMembros (id_membro, id_instrutor, id_aula, titulo, mensagem) VALUES (@m, @i, @a, @t, @msg)";
-                            SqlCommand cmd = new SqlCommand(sql, conn);
-                            cmd.Parameters.AddWithValue("@m", (int)cbMembro.SelectedValue);
-                            cmd.Parameters.AddWithValue("@i", Session.UserId);
-                            cmd.Parameters.AddWithValue("@a", idAula);
-                            cmd.Parameters.AddWithValue("@t", txtTitulo.Text.Trim());
-                            cmd.Parameters.AddWithValue("@msg", txtMsg.Text.Trim());
-                            cmd.ExecuteNonQuery();
-                        }
-                        MessageBox.Show("Feedback enviado com sucesso.");
-                        dlg.Close();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Erro ao enviar feedback: " + ex.Message);
-                    }
-                };
-                dlg.Controls.AddRange(new Control[] { lblMembro, cbMembro, lblTitulo, txtTitulo, lblMsg, txtMsg, btnOk });
-                dlg.ShowDialog(this);
+                MessageBox.Show("Erro ao gerar relatório: " + ex.Message);
             }
         }
-
-
     }
 }
