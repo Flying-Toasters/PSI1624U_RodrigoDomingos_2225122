@@ -1,6 +1,7 @@
 using System;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Web;
 using System.Windows.Forms;
 
@@ -98,17 +99,21 @@ namespace WindowsFormsApp1
 
         }
 
+
         private void pictureBox2_Click(object sender, EventArgs e)
         {
+
+            string pasta = Application.StartupPath;
+
             if (textBox2.UseSystemPasswordChar == true)
             {
                 textBox2.UseSystemPasswordChar = false;
-                pictureBox2.BackgroundImage = Image.FromFile("C:\\Users\\2225122\\Documents\\eye_15732976.png");
+                pictureBox2.BackgroundImage = Image.FromFile(Path.Combine(pasta, "eye_15732976.png"));
             }
             else
             {
                 textBox2.UseSystemPasswordChar = true;
-                pictureBox2.BackgroundImage = Image.FromFile("C:\\Users\\2225122\\Documents\\eye_15732967.png");
+                pictureBox2.BackgroundImage = Image.FromFile(Path.Combine(pasta, "eye_15732967.png"));
             }
         }
 
@@ -117,6 +122,12 @@ namespace WindowsFormsApp1
             Global.GlobalVar = "Administradores";
              new FormDashboard().Show();
             this.Hide();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            Application.Exit();
         }
     }
 }

@@ -4,25 +4,40 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+
 namespace WindowsFormsApp1
 {
     internal static class Program
     {
-        /// <summary>
-        /// Ponto de entrada principal para o aplicativo.
-        /// </summary>
-        [STAThread]
+        /// <summary>
+        /// Ponto de entrada principal para o aplicativo.
+        /// </summary>
+        [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            
+
+
+            if (!DatabaseInitializer.InicializarBD())
+                return;
+
+
+
             Application.Run(new FormMembrosLogIn());
         }
     }
 
+
+
     static class Global
     {
         private static string _globalVar = "";
+
+
 
         public static string GlobalVar
         {
@@ -30,5 +45,4 @@ namespace WindowsFormsApp1
             set { _globalVar = value; }
         }
     }
-
 }
