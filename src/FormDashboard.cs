@@ -32,7 +32,7 @@ namespace WindowsFormsApp1
             ColunaRemover.Visible = isAdmin;
             btnAdicionarAula.Visible = isAdmin;
             RemoverAula.Visible = isAdmin;
-            FeedbackAula.Visible = isInstrutor && isAdmin;
+            FeedbackAula.Visible = isInstrutor || isAdmin;
             btnAdicionarEquipamento.Visible = isAdmin;
             btnAdicionarEvento.Visible = isAdmin;
             RemoverEvento.Visible = isAdmin;
