@@ -19,6 +19,12 @@ namespace WindowsFormsApp1
                 return;
             }
 
+            if (textBox1.Text == "" || textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == "")
+            {
+                MessageBox.Show("Por favor, preencha todos os campos.");
+                return;
+            }
+
             try
             {
                 using (SqlConnection conn = DatabaseHelper.GetConnection())
