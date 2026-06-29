@@ -1,7 +1,3 @@
-CREATE DATABASE PSI1624U_RodrigoDomingos_2225122_SthenosDB
-
-USE PSI1624U_RodrigoDomingos_2225122_SthenosDB
-
 CREATE TABLE Membros (
     id_membro       INT IDENTITY(1,1) PRIMARY KEY,
     nome            NVARCHAR(100) NOT NULL,
@@ -47,7 +43,7 @@ CREATE TABLE PlanosAssinatura (
 
 CREATE TABLE Pagamentos (
     id_pagamento    INT IDENTITY(1,1) PRIMARY KEY,
-    id_membro       INT NOT NULL FOREIGN KEY REFERENCES Membros(id_membro),
+    id_membro       INT NOT NULL FOREIGN KEY REFERENCES Membros(id_membro) ON DELETE CASCADE,
     id_plano        INT NOT NULL FOREIGN KEY REFERENCES PlanosAssinatura(id_plano),
     valor           DECIMAL(10,2) NOT NULL,
     data_pagamento  DATETIME DEFAULT GETDATE(),
@@ -69,7 +65,7 @@ CREATE TABLE Aulas (
 
 CREATE TABLE Inscricoes (
     id_inscricao    INT IDENTITY(1,1) PRIMARY KEY,
-    id_membro       INT NOT NULL FOREIGN KEY REFERENCES Membros(id_membro),
+    id_membro       INT NOT NULL FOREIGN KEY REFERENCES Membros(id_membro) ON DELETE CASCADE,
     id_aula         INT NOT NULL FOREIGN KEY REFERENCES Aulas(id_aula),
     data_inscricao  DATETIME DEFAULT GETDATE(),
     presenca        BIT DEFAULT 0
@@ -77,7 +73,7 @@ CREATE TABLE Inscricoes (
 
 CREATE TABLE FeedbackMembros (
     id_feedback     INT IDENTITY(1,1) PRIMARY KEY,
-    id_membro       INT NOT NULL FOREIGN KEY REFERENCES Membros(id_membro),
+    id_membro       INT NOT NULL FOREIGN KEY REFERENCES Membros(id_membro) ON DELETE CASCADE,
     id_instrutor    INT NOT NULL FOREIGN KEY REFERENCES Instrutores(id_instrutor),
     id_aula         INT FOREIGN KEY REFERENCES Aulas(id_aula),
     titulo          NVARCHAR(150),
@@ -98,7 +94,7 @@ CREATE TABLE Eventos (
 
 CREATE TABLE InscricoesEventos (
     id_inscricao_ev INT IDENTITY(1,1) PRIMARY KEY,
-    id_membro       INT NOT NULL FOREIGN KEY REFERENCES Membros(id_membro),
+    id_membro       INT NOT NULL FOREIGN KEY REFERENCES Membros(id_membro) ON DELETE CASCADE,
     id_evento       INT NOT NULL FOREIGN KEY REFERENCES Eventos(id_evento),
     data_inscricao  DATETIME DEFAULT GETDATE()
 )
