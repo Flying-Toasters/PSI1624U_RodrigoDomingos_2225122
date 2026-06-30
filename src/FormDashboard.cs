@@ -36,7 +36,7 @@ namespace WindowsFormsApp1
             btnAdicionarEquipamento.Visible = isAdmin;
             btnAdicionarEvento.Visible = isAdmin;
             RemoverEvento.Visible = isAdmin;
-            Participantes.Visible = isAdmin || isInstrutor;
+            aulaParticipantes.Visible = isAdmin || isInstrutor;
             
             if (isMembro)
                 tabControl1.TabPages.Remove(tabPage7);
