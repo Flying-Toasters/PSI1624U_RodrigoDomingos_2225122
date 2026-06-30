@@ -119,9 +119,7 @@ namespace WindowsFormsApp1
 
         private void label5_Click(object sender, EventArgs e)
         {
-            Global.GlobalVar = "Administradores";
-             new FormDashboard().Show();
-            this.Hide();
+           
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
