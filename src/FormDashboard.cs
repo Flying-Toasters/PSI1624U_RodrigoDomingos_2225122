@@ -37,7 +37,7 @@ namespace WindowsFormsApp1
             btnAdicionarEvento.Visible = isAdmin;
             RemoverEvento.Visible = isAdmin;
             Participantes.Visible = isAdmin || isInstrutor;
-            ParticipantesEvento.Visible = isAdmin || isInstrutor;
+            
             if (isMembro)
                 tabControl1.TabPages.Remove(tabPage7);
 
@@ -861,7 +861,7 @@ namespace WindowsFormsApp1
 
             if (colName == "RemoverEvento")
             {
-                if (MessageBox.Show("Resmover este evento?", "Confirmar", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+                if (MessageBox.Show("Remover este evento?", "Confirmar", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
 
                 try
                 {
