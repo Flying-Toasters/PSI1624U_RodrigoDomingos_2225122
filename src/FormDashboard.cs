@@ -36,7 +36,7 @@ namespace WindowsFormsApp1
             btnAdicionarEquipamento.Visible = isAdmin;
             btnAdicionarEvento.Visible = isAdmin;
             RemoverEvento.Visible = isAdmin;
-            aulaParticipantes.Visible = isAdmin || isInstrutor;
+            aulaParticipantes.Visible = isAdmin;
             Participantes.Visible = isAdmin;
             
             if (isMembro)
