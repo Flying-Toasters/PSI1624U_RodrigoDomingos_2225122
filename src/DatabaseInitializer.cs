@@ -92,7 +92,7 @@ namespace WindowsFormsApp1
 
         private static string ObterScriptSQL()
         {
-            string caminho = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scriptsbd", "SQLQuery1.sql");
+            string caminho = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scriptsbd", "PSI1624U_RodrigoDomingos_2225122_SthenosDB");
             return File.ReadAllText(caminho);
         }
     }

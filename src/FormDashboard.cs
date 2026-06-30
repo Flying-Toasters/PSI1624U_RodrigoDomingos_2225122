@@ -28,7 +28,6 @@ namespace WindowsFormsApp1
             bool isInstrutor = Global.GlobalVar == "Instrutores";
             bool isMembro = Global.GlobalVar == "Membros";
             btnAtribuirPlano.Visible = isAdmin;
-            ColunaEditar.Visible = isAdmin;
             ColunaRemover.Visible = isAdmin;
             btnAdicionarAula.Visible = isAdmin;
             RemoverAula.Visible = isAdmin;
