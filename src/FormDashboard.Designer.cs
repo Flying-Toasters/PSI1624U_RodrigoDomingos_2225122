@@ -56,20 +56,19 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.btnAdicionarEquipamento = new System.Windows.Forms.Button();
             this.dgvEquipamentos = new System.Windows.Forms.DataGridView();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.dgvRelatorio = new System.Windows.Forms.DataGridView();
+            this.lblTotalRelatorio = new System.Windows.Forms.Label();
+            this.btnGerarRelatorio = new System.Windows.Forms.Button();
+            this.cbRelatorio = new System.Windows.Forms.ComboBox();
             this.planosAssinaturaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.planosAssinaturaTableAdapter = new WindowsFormsApp1.SthenosDBDataSetTableAdapters.PlanosAssinaturaTableAdapter();
-            this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.cbRelatorio = new System.Windows.Forms.ComboBox();
-            this.btnGerarRelatorio = new System.Windows.Forms.Button();
-            this.lblTotalRelatorio = new System.Windows.Forms.Label();
-            this.dgvRelatorio = new System.Windows.Forms.DataGridView();
             this.ColunaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColunaEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColunaTelefone = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColunaPlanoAtivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.idmembroDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Historico = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.ColunaEditar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ColunaRemover = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -86,9 +85,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvEventos)).BeginInit();
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEquipamentos)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.planosAssinaturaBindingSource)).BeginInit();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRelatorio)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.planosAssinaturaBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -143,7 +142,6 @@
             this.ColunaPlanoAtivo,
             this.idmembroDataGridViewTextBoxColumn,
             this.Historico,
-            this.ColunaEditar,
             this.ColunaRemover});
             this.dgvMembros.DataMember = "Membros";
             this.dgvMembros.DataSource = this.sthenosDBDataSetBindingSource;
@@ -379,15 +377,6 @@
             this.dgvEquipamentos.Size = new System.Drawing.Size(1056, 557);
             this.dgvEquipamentos.TabIndex = 0;
             // 
-            // planosAssinaturaBindingSource
-            // 
-            this.planosAssinaturaBindingSource.DataMember = "PlanosAssinatura";
-            this.planosAssinaturaBindingSource.DataSource = this.sthenosDBDataSetBindingSource;
-            // 
-            // planosAssinaturaTableAdapter
-            // 
-            this.planosAssinaturaTableAdapter.ClearBeforeFill = true;
-            // 
             // tabPage7
             // 
             this.tabPage7.Controls.Add(this.dgvRelatorio);
@@ -402,6 +391,33 @@
             this.tabPage7.Text = "Relatórios";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
+            // dgvRelatorio
+            // 
+            this.dgvRelatorio.AllowUserToAddRows = false;
+            this.dgvRelatorio.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRelatorio.Location = new System.Drawing.Point(6, 6);
+            this.dgvRelatorio.Name = "dgvRelatorio";
+            this.dgvRelatorio.Size = new System.Drawing.Size(1056, 530);
+            this.dgvRelatorio.TabIndex = 3;
+            // 
+            // lblTotalRelatorio
+            // 
+            this.lblTotalRelatorio.AutoSize = true;
+            this.lblTotalRelatorio.Location = new System.Drawing.Point(127, 569);
+            this.lblTotalRelatorio.Name = "lblTotalRelatorio";
+            this.lblTotalRelatorio.Size = new System.Drawing.Size(0, 13);
+            this.lblTotalRelatorio.TabIndex = 2;
+            // 
+            // btnGerarRelatorio
+            // 
+            this.btnGerarRelatorio.Location = new System.Drawing.Point(6, 569);
+            this.btnGerarRelatorio.Name = "btnGerarRelatorio";
+            this.btnGerarRelatorio.Size = new System.Drawing.Size(107, 23);
+            this.btnGerarRelatorio.TabIndex = 1;
+            this.btnGerarRelatorio.Text = "Gerar Relatório";
+            this.btnGerarRelatorio.UseVisualStyleBackColor = true;
+            this.btnGerarRelatorio.Click += new System.EventHandler(this.btnGerarRelatorio_Click);
+            // 
             // cbRelatorio
             // 
             this.cbRelatorio.FormattingEnabled = true;
@@ -414,32 +430,14 @@
             this.cbRelatorio.Size = new System.Drawing.Size(121, 21);
             this.cbRelatorio.TabIndex = 0;
             // 
-            // btnGerarRelatorio
+            // planosAssinaturaBindingSource
             // 
-            this.btnGerarRelatorio.Location = new System.Drawing.Point(6, 569);
-            this.btnGerarRelatorio.Name = "btnGerarRelatorio";
-            this.btnGerarRelatorio.Size = new System.Drawing.Size(107, 23);
-            this.btnGerarRelatorio.TabIndex = 1;
-            this.btnGerarRelatorio.Text = "Gerar Relatório";
-            this.btnGerarRelatorio.UseVisualStyleBackColor = true;
-            this.btnGerarRelatorio.Click += new System.EventHandler(this.btnGerarRelatorio_Click);
+            this.planosAssinaturaBindingSource.DataMember = "PlanosAssinatura";
+            this.planosAssinaturaBindingSource.DataSource = this.sthenosDBDataSetBindingSource;
             // 
-            // lblTotalRelatorio
+            // planosAssinaturaTableAdapter
             // 
-            this.lblTotalRelatorio.AutoSize = true;
-            this.lblTotalRelatorio.Location = new System.Drawing.Point(127, 569);
-            this.lblTotalRelatorio.Name = "lblTotalRelatorio";
-            this.lblTotalRelatorio.Size = new System.Drawing.Size(0, 13);
-            this.lblTotalRelatorio.TabIndex = 2;
-            // 
-            // dgvRelatorio
-            // 
-            this.dgvRelatorio.AllowUserToAddRows = false;
-            this.dgvRelatorio.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRelatorio.Location = new System.Drawing.Point(6, 6);
-            this.dgvRelatorio.Name = "dgvRelatorio";
-            this.dgvRelatorio.Size = new System.Drawing.Size(1056, 530);
-            this.dgvRelatorio.TabIndex = 3;
+            this.planosAssinaturaTableAdapter.ClearBeforeFill = true;
             // 
             // ColunaNome
             // 
@@ -484,15 +482,6 @@
             this.Historico.Text = "Histórico";
             this.Historico.UseColumnTextForButtonValue = true;
             // 
-            // ColunaEditar
-            // 
-            this.ColunaEditar.HeaderText = "Editar";
-            this.ColunaEditar.Name = "ColunaEditar";
-            this.ColunaEditar.ReadOnly = true;
-            this.ColunaEditar.Text = "Editar";
-            this.ColunaEditar.UseColumnTextForButtonValue = true;
-            this.ColunaEditar.Visible = false;
-            // 
             // ColunaRemover
             // 
             this.ColunaRemover.HeaderText = "Remover";
@@ -528,10 +517,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvEventos)).EndInit();
             this.tabPage6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvEquipamentos)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.planosAssinaturaBindingSource)).EndInit();
             this.tabPage7.ResumeLayout(false);
             this.tabPage7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRelatorio)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.planosAssinaturaBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -577,7 +566,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColunaPlanoAtivo;
         private System.Windows.Forms.DataGridViewTextBoxColumn idmembroDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewButtonColumn Historico;
-        private System.Windows.Forms.DataGridViewButtonColumn ColunaEditar;
         private System.Windows.Forms.DataGridViewButtonColumn ColunaRemover;
     }
 }
